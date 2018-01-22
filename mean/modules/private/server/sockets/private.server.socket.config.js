@@ -1,1 +1,0 @@
-"use strict";var path=require("path");module.exports=function(e,r){var s=require(path.resolve("./modules/private/server/sockets/server.server.socket"));s.emit(s.EVENTTYPE.NEWSOCKET,r,r.request.user)};
