@@ -21,7 +21,7 @@
     //获取参数
     var storage = $window.localStorage.getItem('Orgparty');
     var storagedata = JSON.parse(storage);
-    if (!storage) {
+    if (storage === '{}') {
       vmo.organizationId = $stateParams.typeid;//所属部门党委或街道党工委ID
       vmo.organizationName = $stateParams.typename;//所属部门党委或街道党工委name
     } else {
@@ -183,8 +183,8 @@
         {field: 'Secretary', displayName: '书记'},
         {field: 'Head', displayName: '党务专干'},
         {field: 'TelNumber', displayName: '联系电话'},
-        {field: 'Address', displayName: '联系地址'},
-        {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd HH:mm:ss\"'}
+        {field: 'Address', displayName: '联系地址'}/*,
+        {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd HH:mm:ss\"'}*/
       ],
 
       onRegisterApi: function (gridApi) {

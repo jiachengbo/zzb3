@@ -22,7 +22,7 @@
       });
     };
     var storagedata = JSON.parse(storage);
-    if (!storage) {
+    if (storage === '{}') {
       vmo.branch = $stateParams.tj.OrganizationId;//所属支部ID
       vmo.zbName = $stateParams.tj.OrganizationName;//所属支部名称
       orgInfo = $stateParams.orgInfo;//所属组织名称、ID
@@ -188,8 +188,8 @@
         {field: 'TelNumber', displayName: '联系电话'},
         {field: 'preson_category', displayName: '党员类别'},
         {field: 'simpleName', displayName: '所属党支部'},
-        {field: 'sections', displayName: '认领单位（报到社区）'},
-        {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd\"'}
+        {field: 'sections', displayName: '认领单位（报到社区）'}/*,
+        {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd\"'}*/
       ],
 
       onRegisterApi: function (gridApi) {

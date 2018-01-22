@@ -25,8 +25,109 @@
       return this.push.apply(this, rest);
     };
     var supers;
+
     function fette() {
       var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
+      var PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
+      var PartyGeneralBranch = baseCodeService.getItems('dj_PartyGeneralBranch');
+      if (appService.user) {
+        var arr = [];
+        var obj = {};
+        var obj1;
+        var name;
+        var orgstr;
+        if (appService.user.user_grade === 9 || appService.user.user_grade === 10) {
+          angular.forEach(PartyBranch, function (value, key) {
+            if (value.OrganizationId === appService.user.branch) {
+              obj1 = value;
+              angular.forEach(PartyGeneralBranch, function (v, i) {
+                if (obj1.generalbranch === v.branchID) {
+                  this.push(v);
+                }
+              }, arr);
+            }
+          });
+          angular.forEach(PartyOrganization, function (value, key) {
+            if (value.typeID === arr[0].superior) {
+              name = value.typeName;
+            }
+          });
+          orgstr = [{'orgid': arr[0].superior, 'orgname': name}];
+          obj.orgInfo = orgstr;
+          obj.id = arr[0].branchID;
+          $window.localStorage.setItem('Orgtj11', JSON.stringify(obj));
+          $window.localStorage.setItem('Orgtj', JSON.stringify({}));
+        } else if (appService.user.user_grade === 6 || appService.user.user_grade === 7 || appService.user.user_grade === 8) {
+
+          angular.forEach(PartyBranch, function (value, key) {
+            if (value.OrganizationId === appService.user.branch) {
+              obj1 = value;
+            }
+          });
+          angular.forEach(PartyOrganization, function (value, key) {
+            if (value.typeID === obj1.super) {
+              name = value.typeName;
+            }
+          });
+          orgstr = [{'orgid': obj1.super, 'orgname': name}];
+          obj.orgInfo = orgstr;
+          obj.OrganizationId = obj1.OrganizationId;
+          obj.OrganizationName = obj1.simpleName;
+          $window.localStorage.setItem('Orgtj11', JSON.stringify({}));
+          $window.localStorage.setItem('Orgtj', JSON.stringify(obj));
+        } else {
+          $window.localStorage.setItem('Orgtj11', JSON.stringify(obj));
+          $window.localStorage.setItem('Orgtj', JSON.stringify(obj));
+        }
+      }
+      if (appService.user) {
+        var obj2 = {};
+        var obj3;
+        var name1;
+        var genera;
+        var grade = appService.user.user_grade;
+        var branch = appService.user.branch;
+        var zhibuname;
+        var orgstr1 = {};
+        if (branch) {
+          angular.forEach(PartyBranch, function (value, key) {
+            if (value.OrganizationId === appService.user.branch) {
+              obj3 = value;
+              if (!obj3.generalbranch) {
+                zhibuname = value.simpleName;
+              }
+            }
+          });
+          angular.forEach(PartyOrganization, function (value, key) {
+            if (value.typeID === obj3.super) {
+              name1 = value;
+            }
+          });
+          angular.forEach(PartyGeneralBranch, function (value, key) {
+            if (value.branchID === obj3.generalbranch) {
+              genera = value;
+              zhibuname = value.simpleName;
+            }
+          });
+        }
+        if (appService.user.user_grade === 5 || appService.user.user_grade === 4) {
+          obj2.typeid = name1.typeID;
+          obj2.typename = name1.typeName;
+          $window.localStorage.setItem('Orgparty', JSON.stringify(obj2));
+        } else if (appService.user.user_grade === 6 || appService.user.user_grade === 7 || appService.user.user_grade === 8 || appService.user.user_grade === 9 || appService.user.user_grade === 10) {
+          orgstr1.typeid = name1.typeID;
+          orgstr1.typename = name1.typeName;
+          if (grade === 6 || grade === 7) {
+            orgstr1.OrganizationId = obj3.OrganizationId;
+          } else if (grade === 9 || grade === 10) {
+            orgstr1.generalbranch = obj3.generalbranch;
+          }
+          $window.localStorage.setItem('Orgparty', JSON.stringify(orgstr1));
+        } else {
+          $window.localStorage.setItem('Orgparty', JSON.stringify(obj2));
+        }
+      }
+
       angular.forEach(PartyBranch, function (v, k) {
         if (v.OrganizationId === appService.user.branch) {
           supers = v.super;
@@ -39,7 +140,7 @@
           if (nums !== -1) {
             appService.user.roles.remove(nums);
           }
-          if(appService.user.roles.length > 0){
+          if (appService.user.roles.length > 0) {
             $window.localStorage.setItem('roles', JSON.stringify(appService.user.roles));
           }
         }
@@ -48,15 +149,15 @@
         vm.role2 = angular.copy(vm.roles);
         //console.log(vm.role1, vm.role2);
         jcxxglarr.forEach(function (v, k) {
-          vm.role1.map(function (value, k1) {
-            if(value.match(v)){
+          vm.role1.forEach(function (value, k1) {
+            if (value.match(v)) {
               vm.role1.remove(k1);
             }
           });
         });
         cityjcdjarr.forEach(function (v, k) {
-          vm.role2.map(function (value, k1) {
-            if(value.match(v)){
+          vm.role2.forEach(function (value, k1) {
+            if (value.match(v)) {
               vm.role2.remove(k1);
             }
           });
@@ -71,9 +172,10 @@
         }
       }
     }
+
     //监测登录事件
     $scope.$on('userLogin', fette);
-    if(appService.user){
+    if (appService.user) {
       fette();
     }
     //待处理任务

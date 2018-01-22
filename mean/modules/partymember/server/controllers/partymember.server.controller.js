@@ -138,7 +138,13 @@ exports.list = function (req, res) {
         PartyName: {
           $like: '%' + key2 + '%'
         }
-      }
+      },
+      include: [
+        {
+          model: dj_PartyBranch,
+          attributes: ['simpleName']
+        }
+      ]
     }).then(function (data) {
       res.jsonp(data);
     }).catch(function (err) {

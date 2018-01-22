@@ -8,11 +8,50 @@
   menuConfig.$inject = ['menuService'/*, 'appService', 'baseCodeService', '$window', '$timeout'*/];
 
   function menuConfig(menuService/*, appService, baseCodeService, $window, $timeout*/) {
+    //区委菜单
     menuService.addMenuItem('sidemenu', {
       title: '党员信息管理',
       state: 'partymember',
       type: 'dropdown',
       roles: ['partymer'],
+      position: -9
+    });
+    menuService.addSubMenuItem('sidemenu', 'partymember', {
+      title: '党委',
+      state: 'partymember.curd.one',
+      roles: ['*']
+    });
+    menuService.addSubMenuItem('sidemenu', 'partymember', {
+      title: '党工委',
+      state: 'partymember.curd.commone',
+      roles: ['*']
+    });
+    //党委菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党员信息管理',
+      state: 'partymember.curd.one',
+      roles: ['partymerdw'],
+      position: -9
+    });
+    //党工委菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党员信息管理',
+      state: 'partymember.curd.commone',
+      roles: ['partymerdgw'],
+      position: -9
+    });
+    //党总支菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党员信息管理',
+      state: 'partymember.curd.three',
+      roles: ['partymerdzz'],
+      position: -9
+    });
+    //党支部菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党员信息管理',
+      state: 'partymember.curd.main',
+      roles: ['partymerdzb'],
       position: -9
     });
     /* var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
@@ -90,15 +129,5 @@
      });
      }
      }*/
-    menuService.addSubMenuItem('sidemenu', 'partymember', {
-      title: '党委',
-      state: 'partymember.curd.one',
-      roles: ['*']
-    });
-    menuService.addSubMenuItem('sidemenu', 'partymember', {
-      title: '党工委',
-      state: 'partymember.curd.commone',
-      roles: ['*']
-    });
   }
 }());

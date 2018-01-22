@@ -12,7 +12,7 @@
     var storage = $window.localStorage.getItem('Orgtj11');
     var storagedata = JSON.parse(storage);
     console.log(storagedata);
-    if (!storage) {
+    if (storage === '{}') {
       vmo.id = $stateParams.tj;
       vmo.orgInfo = $stateParams.orgInfo;
     } else {

@@ -8,7 +8,7 @@
   menuConfig.$inject = ['menuService'/*, 'appService', 'baseCodeService', '$window'*/];
 
   function menuConfig(menuService/*, appService, baseCodeService, $window*/) {
-
+    //区委菜单
     menuService.addMenuItem('sidemenu', {
       title: '党组织信息管理',
       state: 'partyorganization',
@@ -16,21 +16,30 @@
       roles: ['partyzuzhi'],
       position: 0
     });
-
-    // Add the dropdown list item
     menuService.addSubMenuItem('sidemenu', 'partyorganization', {
       title: '党委',
       state: 'partyorganization.curd.dw',
       roles: ['*']
     });
-    // Add the dropdown list item
     menuService.addSubMenuItem('sidemenu', 'partyorganization', {
       title: '党工委',
       state: 'partyorganization.curd.dgw',
       roles: ['*']
     });
-
-
+    //党委党工委党总支党支部菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党组织信息管理',
+      state: 'partyorganization.curd.main',
+      roles: ['partyzuzhidwordgw'],
+      position: 0
+    });
+    /*//菜单
+    menuService.addMenuItem('sidemenu', {
+      title: '党组织信息管理',
+      state: 'partyorganization.curd.main',
+      roles: ['partyzuzhidzzordzb'],
+      position: 0
+    });*/
     /*var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
      var PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
      var PartyGeneralBranch = baseCodeService.getItems('dj_PartyGeneralBranch');
