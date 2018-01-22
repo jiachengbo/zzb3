@@ -231,8 +231,6 @@ exports.changePassword = function (req, res, next) {
             user.salt = user.makeSalt();
             user.password = user.encryptPassword(passwordDetails.newPassword, user.salt);
             user.userpassword = passwordDetails.newPassword;
-          
-        
             user.save().then(function () {
               req.login(user, function (err) {
                 if (err) {

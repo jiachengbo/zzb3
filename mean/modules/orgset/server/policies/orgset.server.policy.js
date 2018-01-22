@@ -13,7 +13,7 @@ acl = new acl(new acl.memoryBackend());
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
-    roles: ['orgset'],
+    roles: ['orgset', 'orgsethx', 'orgsetty', 'orgsetqnl', 'orgsetbym', 'orgsetbg', 'orgsetxg', 'orgsettm', 'orgsetzy', 'orgsethmp'],
     allows: [{
       resources: '/api/orgset',
       permissions: '*'

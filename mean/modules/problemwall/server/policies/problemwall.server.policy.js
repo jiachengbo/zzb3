@@ -34,8 +34,8 @@ exports.invokeRolesPolicies = function () {
  * Check If ProblemWall Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
-  return next();
-  /*
+  //return next();
+  /**/
    var roles = (req.user) ? req.user.roles : ['guest'];
 
    // Check for user roles
@@ -53,5 +53,5 @@ exports.isAllowed = function (req, res, next) {
    });
    }
    }
-   });*/
+   });
 };

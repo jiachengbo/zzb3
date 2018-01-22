@@ -9,7 +9,7 @@
     'appService', 'UsersService', 'PasswordValidator', 'Notification', 'menuService'];
 
   function appServiceController($scope, $state, $location, $window, $timeout,
-        appService, UsersService, PasswordValidator, Notification, menuService) {
+                                appService, UsersService, PasswordValidator, Notification, menuService) {
     var vm = this;
     vm.authentication = appService;
     vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
@@ -20,7 +20,6 @@
     vm.signin = signin;
     vm.callOauthProvider = callOauthProvider;
     vm.usernameRegex = /^(?=[\w.-]+$)(?!.*[._-]{2})(?!\.)(?!.*\.$).{3,34}$/;
-
 
 
     //加密
@@ -74,10 +73,9 @@
     }
 
 
-
     // Get an eventual error defined in the URL query string:
     if ($location.search().err) {
-      Notification.error({ message: $location.search().err });
+      Notification.error({message: $location.search().err});
     }
 
     // If user is signed in then redirect back home
@@ -85,13 +83,13 @@
       //$location.path('/');
       return appService.gotoHome();
     }
-/*
-    //不能直接访问登录地址
-    if (!$state.previous || !$state.previous.state ||
-      !$state.previous.state.name || $state.previous.state.name === '') {
-      appService.gotoHome();
-    }
-*/
+    /*
+     //不能直接访问登录地址
+     if (!$state.previous || !$state.previous.state ||
+     !$state.previous.state.name || $state.previous.state.name === '') {
+     appService.gotoHome();
+     }
+     */
     if ($state.current && $state.current.name === appService.gotoDefine.signin.state) {
       $timeout(function () {
         //默认显示标题
@@ -144,11 +142,11 @@
     function signin() {
       //使用ng-submit提交时，防止浏览器自动填充信息还没有更新到绑定数据
       $timeout(function () {
-      if (vm.check) {
-        $window.localStorage.setItem('userss', compile(JSON.stringify(vm.credentials)));
-      } else {
-        $window.localStorage.setItem('userss', JSON.stringify({}));
-      }
+        if (vm.check) {
+          $window.localStorage.setItem('userss', compile(JSON.stringify(vm.credentials)));
+        } else {
+          $window.localStorage.setItem('userss', JSON.stringify({}));
+        }
         if (!vm.userForm.$valid) {
           $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
         } else {
@@ -175,13 +173,17 @@
       vm.authentication.user = response;
       //注册成功
       appService.signup(response);
-      Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Signup successful!' });
+      Notification.success({message: '<i class="glyphicon glyphicon-ok"></i> Signup successful!'});
       // And redirect to the previous or home page
       //$state.go(($state.previous && $state.previous.state && $state.previous.state.name) || 'home', $state.previous && $state.previous.params);
     }
 
     function onUserSignupError(response) {
-      Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Signup Error!', delay: 6000 });
+      Notification.error({
+        message: response.data.message,
+        title: '<i class="glyphicon glyphicon-remove"></i> Signup Error!',
+        delay: 6000
+      });
     }
 
     function onUserSigninSuccess(response) {
@@ -189,16 +191,20 @@
       //登录成功
       appService.signin(response);
 
-      Notification.info({ message: '欢迎使用 ' + response.firstName });
+      Notification.info({message: '欢迎使用 ' + response.firstName});
 
       // And redirect to the previous or home page
       /*$window.open('/', '_parent')*/
       $state.go(($state.previous && $state.previous.state && $state.previous.state.name) || 'home', $state.previous && $state.previous.params, {reload: true});
-      parent.location.reload();
+     // parent.location.reload();
     }
 
     function onUserSigninError(response) {
-      Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Signin Error!', delay: 6000 });
+      Notification.error({
+        message: response.data.message,
+        title: '<i class="glyphicon glyphicon-remove"></i> Signin Error!',
+        delay: 6000
+      });
     }
 
     var a = 1;

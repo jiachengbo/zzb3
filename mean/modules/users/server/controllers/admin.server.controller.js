@@ -43,7 +43,7 @@ exports.create = function (req, res) {
         return user.setWps(workpositions);
       }
     })
-    .then(function() {
+    .then(function () {
       res.json(user);
     })
     .catch(function (err) {
@@ -66,36 +66,36 @@ exports.read = function (req, res) {
  */
 exports.update = function (req, res) {
   /*var role = req.body.JCDJ_User_roleID;
-  role = JSON.parse(role);
-  var branch = req.body.branch;
-  branch = JSON.parse(branch);
-  req.body.displayName = req.body.firstName + ' ' + req.body.lastName;
-  //用户名称全部小写
-  req.body.username = req.body.username.toLowerCase();
-  req.body.JCDJ_User_roleID = role.UserRoleID;
-  req.body.branchSimpleName = branch.simpleName;
-  req.body.branch = branch.OrganizationId;
-  req.body.user_grade = role.UserGradeID;
-  var id = req.body.id;
-  var user = req.model;*/
+   role = JSON.parse(role);
+   var branch = req.body.branch;
+   branch = JSON.parse(branch);
+   req.body.displayName = req.body.firstName + ' ' + req.body.lastName;
+   //用户名称全部小写
+   req.body.username = req.body.username.toLowerCase();
+   req.body.JCDJ_User_roleID = role.UserRoleID;
+   req.body.branchSimpleName = branch.simpleName;
+   req.body.branch = branch.OrganizationId;
+   req.body.user_grade = role.UserGradeID;
+   var id = req.body.id;
+   var user = req.model;*/
 
-/*
-  // For security purposes only merge these parameters
-  user.firstName = req.body.firstName;
-  user.lastName = req.body.lastName;
-  user.displayName = user.firstName + ' ' + user.lastName;
-*/
+  /*
+   // For security purposes only merge these parameters
+   user.firstName = req.body.firstName;
+   user.lastName = req.body.lastName;
+   user.displayName = user.firstName + ' ' + user.lastName;
+   */
   /*User.findOne({
-    where: {id: id}
-  }).then(function (user) {
-    if (user.dataValues.department_id === req.body.department_id) {
-      getupdata();
-    } else if (user.dataValues.department_id !== req.body.department_id) {
-      user.dataValues.department_id = req.body.department_id;
-      req.body = user.dataValues;
-      getupdata();
-    }
-  });*/
+   where: {id: id}
+   }).then(function (user) {
+   if (user.dataValues.department_id === req.body.department_id) {
+   getupdata();
+   } else if (user.dataValues.department_id !== req.body.department_id) {
+   user.dataValues.department_id = req.body.department_id;
+   req.body = user.dataValues;
+   getupdata();
+   }
+   });*/
   /*
    // For security purposes only merge these parameters
    user.firstName = req.body.firstName;
@@ -106,28 +106,28 @@ exports.update = function (req, res) {
   // model.build 不会将非表字段加入实例，而instance.update会将所有参数加入实例
   // 如果使用了update(req.body),没有使用save,就不需要再调用user.set('wps', req.body.wps, {raw: true})设置新关联内容了
   /*function getupdata() {
-    User.update(
-      req.body,
-      {
-        where: {'id': id}
-      }
-    ).then(function () {
-      if (req.body.wps && Array.isArray(req.body.wps)) {
-        console.log(req.body.wps);
-        var workpositions = req.body.wps.map(function (workposition) {
-          return WorkPosition.build(workposition);
-        });
-        return user.setWps(workpositions);
-      }
-    }).then(function () {
-      res.json(user);
-    }).catch(function (err) {
-      logger.error('admin user update error:', err);
-      return res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    });
-  }*/
+   User.update(
+   req.body,
+   {
+   where: {'id': id}
+   }
+   ).then(function () {
+   if (req.body.wps && Array.isArray(req.body.wps)) {
+   console.log(req.body.wps);
+   var workpositions = req.body.wps.map(function (workposition) {
+   return WorkPosition.build(workposition);
+   });
+   return user.setWps(workpositions);
+   }
+   }).then(function () {
+   res.json(user);
+   }).catch(function (err) {
+   logger.error('admin user update error:', err);
+   return res.status(422).send({
+   message: errorHandler.getErrorMessage(err)
+   });
+   });
+   }*/
   var role = req.body.JCDJ_User_roleID;
   role = JSON.parse(role);
   var branch = req.body.branch;
@@ -142,19 +142,17 @@ exports.update = function (req, res) {
 
   //model.build 不会将非表字段加入实例，而instance.update会将所有参数加入实例
   //如果使用了update(req.body),没有使用save,就不需要再调用user.set('wps', req.body.wps, {raw: true})设置新关联内容了
-  user.update(req.body)
-    .then(function () {
-      if (req.body.wps && Array.isArray(req.body.wps)) {
-        var workpositions = req.body.wps.map(function (workposition) {
-          console.log(workposition);
-          return WorkPosition.build(workposition);
-        });
-        return user.setWps(workpositions);
-      }
-    })
-    .then(function () {
-      res.json(user);
-    }).catch(function (err) {
+  user.update(req.body).then(function () {
+    if (req.body.wps && Array.isArray(req.body.wps)) {
+      var workpositions = req.body.wps.map(function (workposition) {
+        console.log(workposition);
+        return WorkPosition.build(workposition);
+      });
+      return user.setWps(workpositions);
+    }
+  }).then(function () {
+    res.json(user);
+  }).catch(function (err) {
     logger.error('admin user update error:', err);
     return res.status(422).send({
       message: errorHandler.getErrorMessage(err)
@@ -186,8 +184,10 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   User.findAll({
-    attributes: {exclude: ['password', 'salt', 'providerData',
-      'additionalProvidersData', 'resetPasswordToken', 'resetPasswordExpires']},
+    attributes: {
+      exclude: ['password', 'salt', 'providerData',
+        'additionalProvidersData', 'resetPasswordToken', 'resetPasswordExpires']
+    },
     include: [
       {
         model: WorkPosition,

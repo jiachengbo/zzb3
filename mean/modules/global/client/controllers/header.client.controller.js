@@ -14,8 +14,8 @@
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = appService;
     vm.menus = menuService;
-    var jcxxglarr = ['partygk','partymer','sanhui','notice','firstshuji','banzi','partyzuzhi'];
-    var cityjcdjarr = ['threefive','prowall','worknode','project','build','build','partydt','jobduty','litterwish','partymap'];
+    var jcxxglarr = ['partygk', 'partymer', 'sanhui', 'notice', 'firstshuji', 'banzi', 'partyzuzhi'];
+    var cityjcdjarr = ['threefive', 'prowall', 'worknode', 'project', 'build', 'build', 'partydt', 'jobduty', 'litterwish', 'partymap', 'orgset'];
     if (!appService.user) {
       $state.go('authentication.signin');
     }
@@ -24,7 +24,58 @@
       this.length = from < 0 ? this.length + from : from;
       return this.push.apply(this, rest);
     };
-    console.log(appService.user);
+    var supers;
+    function fette() {
+      var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
+      angular.forEach(PartyBranch, function (v, k) {
+        if (v.OrganizationId === appService.user.branch) {
+          supers = v.super;
+        }
+      });
+      if (appService.user) {
+        $rootScope.authentication = appService;
+        if (appService.user.roles.length > 0) {
+          var nums = appService.user.roles.indexOf('xtsz');
+          if (nums !== -1) {
+            appService.user.roles.remove(nums);
+          }
+          if(appService.user.roles.length > 0){
+            $window.localStorage.setItem('roles', JSON.stringify(appService.user.roles));
+          }
+        }
+        vm.roles = JSON.parse($window.localStorage.getItem('roles'));
+        vm.role1 = angular.copy(vm.roles);
+        vm.role2 = angular.copy(vm.roles);
+        //console.log(vm.role1, vm.role2);
+        jcxxglarr.forEach(function (v, k) {
+          vm.role1.map(function (value, k1) {
+            if(value.match(v)){
+              vm.role1.remove(k1);
+            }
+          });
+        });
+        cityjcdjarr.forEach(function (v, k) {
+          vm.role2.map(function (value, k1) {
+            if(value.match(v)){
+              vm.role2.remove(k1);
+            }
+          });
+        });
+        // console.log(vm.role1, vm.role2);
+        if (appService.user.jobs === 1) {
+          vm.fff = false;
+          vm.userjob = false;
+        } else if (appService.user.jobs !== 1) {
+          vm.fff = true;
+          vm.userjob = true;
+        }
+      }
+    }
+    //监测登录事件
+    $scope.$on('userLogin', fette);
+    if(appService.user){
+      fette();
+    }
     //待处理任务
     vm.userWaitHandles = [];
     // 消息
@@ -52,41 +103,6 @@
       position: 'relative',
       top: height - 320 + 'px'
     };
-    if (appService.user) {
-      if(appService.user.roles.length > 0){
-        var nums = appService.user.roles.indexOf('xtsz');
-        if(nums !== -1){
-          appService.user.roles.remove(nums);
-        }
-        $window.localStorage.setItem('roles', JSON.stringify(appService.user.roles));
-      }
-      vm.roles = JSON.parse($window.localStorage.getItem('roles'));
-      vm.role1 = angular.copy(vm.roles);
-      vm.role2 = angular.copy(vm.roles);
-      console.log(vm.role1, vm.role2);
-      var str;
-      var str1;
-      jcxxglarr.forEach(function (v, k) {
-        if(vm.role1.indexOf(v) !== -1){
-          str = vm.role1.indexOf(v);
-          vm.role1.remove(str);
-        }
-      });
-      cityjcdjarr.forEach(function (v, k) {
-        if(vm.role2.indexOf(v) !== -1){
-          str1 = vm.role2.indexOf(v);
-          vm.role2.remove(str1);
-        }
-      });
-      console.log(vm.role1, vm.role2);
-      if (appService.user.jobs === 1) {
-        vm.fff = false;
-        vm.userjob = false;
-      } else if (appService.user.jobs !== 1) {
-        vm.fff = true;
-        vm.userjob = true;
-      }
-    }
     if (!Socket.socket) {
       //等候socket有效
       $scope.$on('socketCreate', initSocket());
@@ -164,6 +180,7 @@
         Socket.removeListener('DISPATCH');
       });
     }
+
     vm.openStateChangeMsgModal = function (resarg) {
       return $uibModal.open({
         templateUrl: '/modules/global/client/views/stateChangeMsgModal.client.view.html',
@@ -215,20 +232,20 @@
         vm.userWaitHandles = [];
       });
     };
-    var supers;
+
     /*if (appService.user) {
-      var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
-      if (appService.user.user_grade === 4 || appService.user.user_grade === 6) {
-        appService.user.roles.push('dangwei');
-      } else if (appService.user.user_grade === 5 || appService.user.user_grade === 7) {
-        appService.user.roles.push('danggongwei');
-      }
-      angular.forEach(PartyBranch, function (v, k) {
-        if (v.OrganizationId === appService.user.branch) {
-          supers = v.super;
-        }
-      });
-    }*/
+     var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
+     if (appService.user.user_grade === 4 || appService.user.user_grade === 6) {
+     appService.user.roles.push('dangwei');
+     } else if (appService.user.user_grade === 5 || appService.user.user_grade === 7) {
+     appService.user.roles.push('danggongwei');
+     }
+     angular.forEach(PartyBranch, function (v, k) {
+     if (v.OrganizationId === appService.user.branch) {
+     supers = v.super;
+     }
+     });
+     }*/
     vm.itemClick = function (params, type) {
       appService.user2 = {};
       switch (params) {
@@ -253,6 +270,7 @@
           angular.element(document.querySelector('.xcjy')).addClass('active');
           break;
         case 'cityjcdj':
+          console.log(appService.user);
           appService.basicMsg = false;
           if (appService.user2) {
             delete appService.user2;
@@ -341,12 +359,12 @@
       }
     };
     /*vm.myPartyBuild = function () {
-      vm.role = [appService.user.roles[0], appService.user.roles[1], appService.user.roles[2]];
-      vm.role.push('jcxxgl');
-      appService.basicMsg = true;
+     vm.role = [appService.user.roles[0], appService.user.roles[1], appService.user.roles[2]];
+     vm.role.push('jcxxgl');
+     appService.basicMsg = true;
      // appService.user.roles = vm.role;
-      appService.user2 = {};
-      appService.user2.roles = ['user', 'admin', 'jcxxgl', 'cityjcdj'];
-    };*/
+     appService.user2 = {};
+     appService.user2.roles = ['user', 'admin', 'jcxxgl', 'cityjcdj'];
+     };*/
   }
 }());

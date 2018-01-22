@@ -93,12 +93,12 @@
     menuService.addSubMenuItem('sidemenu', 'partymember', {
       title: '党委',
       state: 'partymember.curd.one',
-      roles: ['dangwei', 'quwei']
+      roles: ['*']
     });
     menuService.addSubMenuItem('sidemenu', 'partymember', {
       title: '党工委',
       state: 'partymember.curd.commone',
-      roles: ['danggongwei', 'quwei']
+      roles: ['*']
     });
   }
 }());
