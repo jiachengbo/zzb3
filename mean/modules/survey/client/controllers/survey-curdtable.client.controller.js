@@ -12,6 +12,7 @@
                                        uiGridConstants, SurveyService, $uibModal, Upload, appService, UserMsg) {
     var vm = this;
     //表数据
+    UserMsg.func();
     vm.tableData = [];
     //ui-grid 当前选择的行
     vm.selectedRow = null;

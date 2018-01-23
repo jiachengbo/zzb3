@@ -8,6 +8,7 @@
   replyController.$inject = ['$scope', 'ReplyService', '$window', '$uibModalInstance', 'type', 'appService', 'data', 'Timer', 'UserMsg'];
   function replyController($scope, ReplyService, $window, $uibModalInstance, type, appService, data, Timer, UserMsg) {
     var vm = this;
+    UserMsg.func();
     //在这里处理要进行的操作
     vm.AssignedId = data.AssignedId;
     vm.fromPersonId = data.payoutName;

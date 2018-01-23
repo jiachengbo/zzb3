@@ -8,6 +8,7 @@
   PageBasicMsgOrgController.$inject = ['$scope', '$uibModal', '$log', '$window', 'baseCodeService', '$location', 'menuService', '$stateParams', '$timeout', 'PartyBuildingService', 'PartymapServiceCore', '$filter', 'TeammembersService', 'appService', 'UserMsg', 'PartyBuildingSbService', '$state', 'SurveyService', 'PartyMemberAnalyzeService', 'Timer', 'GetPartyOrgService', 'SearchService', 'GetPartyMemberService'];
   function PageBasicMsgOrgController($scope, $uibModal, $log, $window, baseCodeService, $location, menuService, $stateParams, $timeout, PartyBuildingService, PartymapServiceCore, $filter, TeammembersService, appService, UserMsg, PartyBuildingSbService, $state, SurveyService, PartyMemberAnalyzeService, Timer, GetPartyOrgService, SearchService, GetPartyMemberService) {
     var vm = this;
+    UserMsg.func();
     $window.scrollTo(0, 0);
     vm.dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
     vm.dj_PartyBranch = baseCodeService.getItems('dj_PartyBranch');
@@ -35,6 +36,7 @@
       'background-size': '100% 100%'
     };
     if (!vm.id) {
+      console.log(UserMsg.objId);
       vm.id = UserMsg.objId.toString();
     }
     // 班子成员

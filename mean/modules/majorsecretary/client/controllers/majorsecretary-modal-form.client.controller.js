@@ -8,6 +8,7 @@
   MajorsecretaryModalFormController.$inject = ['$scope', '$uibModalInstance', 'majorsecretaryData', 'method', 'UserMsg'];
   function MajorsecretaryModalFormController($scope, $uibModalInstance, majorsecretaryData, method, UserMsg) {
     var vm = this;
+    UserMsg.func();
     vm.majorsecretaryData = majorsecretaryData;
     vm.method = method;
     if (vm.method === 'add') {

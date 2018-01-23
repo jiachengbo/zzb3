@@ -18,7 +18,7 @@
     vmo.dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
     vmo.searchPartyMeber = function (key) {
       PartymemberService.query({key2: key, workbranch: vmo.orgid}).$promise.then(function (data) {
-        if(data.length > 0){
+        if (data.length > 0) {
           vmo.showa = false;
         }
         vmo.gridOptions.totalItems = data.length;
@@ -195,7 +195,7 @@
         {field: 'simpleName', displayName: '所属党支部', visible: vmo.showa},
         {field: 'dj_PartyBranch.simpleName', displayName: '所属党支部', visible: !vmo.showa},
         {field: 'sections', displayName: '认领单位（报到社区）'}/*,
-        {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd\"'}*/
+         {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd\"'}*/
       ],
 
       onRegisterApi: function (gridApi) {

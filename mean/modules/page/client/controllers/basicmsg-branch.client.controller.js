@@ -9,7 +9,7 @@
     'baseCodeService', '$location', 'menuService', '$filter', 'TeammembersService', 'ThreelessonsService', 'MajorsecretaryService', 'PartyBuildingService', 'UserMsg', '$timeout', 'appService', 'PartyBuildingSbService', '$state', 'SurveyService', 'GetPartyMemberService', '$interval', '$uibModal', 'Timer'];
   function PageBasicMsgBranchController($scope, Notification, $log, $window, baseCodeService, $location, menuService, $filter, TeammembersService, ThreelessonsService, MajorsecretaryService, PartyBuildingService, UserMsg, $timeout, appService, PartyBuildingSbService, $state, SurveyService, GetPartyMemberService, $interval, $uibModal, Timer) {
     var vm = this;
-
+    UserMsg.func();
     $window.scrollTo(0, 0);
     vm.dj_PartyBranch = baseCodeService.getItems('dj_PartyBranch');
     vm.dj_PartyGeneralBranch = baseCodeService.getItems('dj_PartyGeneralBranch');

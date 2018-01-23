@@ -8,6 +8,7 @@
   ThreelessonsModalFormController.$inject = ['$scope', '$uibModalInstance', 'threelessonsData', 'method', 'UserMsg'];
   function ThreelessonsModalFormController($scope, $uibModalInstance, threelessonsData, method, UserMsg) {
     var vm = this;
+    UserMsg.func();
     vm.threelessonsData = threelessonsData;
     vm.method = method;
     if (vm.method === 'add') {

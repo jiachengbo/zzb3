@@ -11,6 +11,7 @@
   function TaskCURDTableController($scope, Notification, $log, $window,
                                    ReplyService, TaskService, $uibModal, jcdjuserService, AddService, baseCodeService, appService, Upload, AppealService, AddRelationService, DataCountService, $state, PayoutBMService, UserMsg, GetTaskProgressService, Socket) {
     var vm = this;
+    UserMsg.func();
     vm.dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
     vm.dj_PartyBranch = baseCodeService.getItems('dj_PartyBranch');
     vm.dj_PartyGeneralBranch = baseCodeService.getItems('dj_PartyGeneralBranch');

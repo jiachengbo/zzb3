@@ -9,6 +9,7 @@
     'baseCodeService', 'appService', 'menuService', 'litterxinService', 'citybasicpartyService', 'ProjectService', '$state', 'Timer', 'prowallService', 'UserMsg'];
   function PageCityBasicPartyOtherController($scope, Notification, $log, $window, baseCodeService, appService, menuService, litterxinService, citybasicpartyService, ProjectService, $state, Timer, prowallService, UserMsg) {
     var vm = this;
+    UserMsg.func();
     menuService.leftMenusCollapsed = true;
     var litter = {};
     var project = {};

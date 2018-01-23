@@ -11,11 +11,12 @@
   function HeaderController($scope, $rootScope, Notification, $log, $uibModal, appService, menuService,
                             Socket, $state, $window, $timeout, UserMsg, baseCodeService) {
     var vm = this;
+    UserMsg.func();
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = appService;
     vm.menus = menuService;
-    var jcxxglarr = ['partygk', 'partymer', 'sanhui', 'notice', 'firstshuji', 'banzi', 'partyzuzhi'];
-    var cityjcdjarr = ['threefive', 'prowall', 'worknode', 'project', 'build', 'build', 'partydt', 'jobduty', 'litterwish', 'partymap', 'orgset'];
+    var jcxxglarr = ['partygk', 'partymer', 'sanhui', 'notice', 'firstshuji', 'banzi', 'partyzuzhi', 'partydt'];
+    var cityjcdjarr = ['threefive', 'prowall', 'worknode', 'project', 'build', 'build', 'jobduty', 'litterwish', 'partymap', 'orgset'];
     if (!appService.user) {
       $state.go('authentication.signin');
     }
@@ -174,9 +175,10 @@
     }
 
     //监测登录事件
-    $scope.$on('userLogin', fette);
     if (appService.user) {
       fette();
+    }else {
+      $scope.$on('userLogin', fette);
     }
     //待处理任务
     vm.userWaitHandles = [];
@@ -367,17 +369,18 @@
             delete appService.user2;
           }
           menuService.leftMenusCollapsed = true;
+          appService.user.roles = ['user'];
           $state.go('page.edu');
           angular.element(document.querySelectorAll('.amenu')).removeClass('active');
           angular.element(document.querySelector('.xcjy')).addClass('active');
           break;
         case 'cityjcdj':
-          console.log(appService.user);
           appService.basicMsg = false;
           if (appService.user2) {
             delete appService.user2;
           }
           menuService.leftMenusCollapsed = true;
+          appService.user.roles = vm.role1;
           if (appService.user.user_grade === 1) {
             $state.go('page.citybasicparty');
           } else if (appService.user.user_grade === 2 || appService.user.user_grade === 4 || appService.user.user_grade === 6 || appService.user.user_grade === 9 || (appService.user.user_grade === 5 && (appService.user.JCDJ_User_roleID < 44 && appService.user.JCDJ_User_roleID > 40)) || (appService.user.user_grade === 7 && supers > 9) || (appService.user.user_grade === 10 && supers > 9)) {
@@ -426,6 +429,7 @@
           if (appService.user2) {
             delete appService.user2;
           }
+          appService.user.roles = vm.role2;
           menuService.leftMenusCollapsed = true;
           if (appService.user.user_grade === 1) {
             $state.go('page.basicmsg');
@@ -445,6 +449,7 @@
           angular.element(document.querySelector('.jcxxgl')).addClass('active');
           break;
         case 'task':
+          appService.user.roles = ['user'];
           appService.basicMsg = false;
           if (appService.user2) {
             delete appService.user2;

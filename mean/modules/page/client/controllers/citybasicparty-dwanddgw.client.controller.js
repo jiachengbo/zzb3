@@ -9,6 +9,7 @@
     'baseCodeService', 'appService', 'menuService', 'litterxinService', 'citybasicpartyService', 'ProjectService', '$state', '$location', '$timeout', 'Timer', 'prowallService', 'UserMsg'];
   function DgworDwController($scope, Notification, $log, $window, baseCodeService, appService, menuService, litterxinService, citybasicpartyService, ProjectService, $state, $location, $timeout, Timer, prowallService, UserMsg) {
     var vm = this;
+    UserMsg.func();
     var dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
     vm.dgwparty = $window.parseInt($location.search().party);
     $scope.dgwparty = [];

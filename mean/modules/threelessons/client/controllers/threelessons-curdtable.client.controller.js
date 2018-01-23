@@ -11,6 +11,7 @@
   function ThreelessonsCURDTableController($scope, Notification, $log, $window,
                                            uiGridConstants, ThreelessonsService, $uibModal, Upload, UserMsg, Timer) {
     var vm = this;
+    UserMsg.func();
     //表数据
     vm.tableData = [];
     //ui-grid 当前选择的行
