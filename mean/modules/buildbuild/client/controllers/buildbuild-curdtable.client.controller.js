@@ -281,7 +281,7 @@
       };
     } else {
       vm.queryParam = {
-        cont: true,
+        cont: true
       };
     }
     //分页4： 刷新记录总数

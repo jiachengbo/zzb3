@@ -151,14 +151,14 @@
             }
           }
           /*for (i = 0; i < vm.dj_PartyGeneralBranch.length; i++) {
-            if (vm.dj_PartyGeneralBranch[i].branchID === userBranch) {
-              result.super = vm.dj_PartyGeneralBranch[i].superior;
-              result.super = vm.dj_PartyBranch[i].super;
-              result.streetID = vm.dj_PartyBranch[i].streetID;
-              result.communityID = vm.dj_PartyBranch[i].communityId;
-              result.grid = vm.dj_PartyBranch[i].BelongGrid;
-            }
-          }*/
+           if (vm.dj_PartyGeneralBranch[i].branchID === userBranch) {
+           result.super = vm.dj_PartyGeneralBranch[i].superior;
+           result.super = vm.dj_PartyBranch[i].super;
+           result.streetID = vm.dj_PartyBranch[i].streetID;
+           result.communityID = vm.dj_PartyBranch[i].communityId;
+           result.grid = vm.dj_PartyBranch[i].BelongGrid;
+           }
+           }*/
         }
 
         result.$save()
@@ -328,7 +328,7 @@
      });*/
     //分页3参数
     vm.queryParam = {
-      cont:true,
+      cont: true,
       littleStatus: littleStatus,
       _super: _super,
       OrganizationIds: OrganizationIds

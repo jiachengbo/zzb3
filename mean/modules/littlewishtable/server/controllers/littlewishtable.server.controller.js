@@ -130,7 +130,7 @@ exports.list = function (req, res) {
     listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
   } else if (cont) {
     listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
-  }else {
+  } else {
     LittleWishTable.findAll({
       order: 'littleId desc'
     }).then(function (littleWishTable) {
@@ -293,43 +293,43 @@ function listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, Or
 exports.littleWishTableByID = function (req, res, next, id) {
   var LittleWishTable = sequelize.model('LittleWishTable');
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  var gradeId = parseInt(req.user.user_grade, 0);//gradeId
-  var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
-  var branchId = parseInt(req.user.branch, 0);//branchId
-  var _super = parseInt(req.query._super, 0);//_super
-  var littleStatus = req.query.littleStatus;//littleStatus
-  var OrganizationIds = req.query.OrganizationIds;//OrganizationIds
-  var OrgIds = [];
-  if (gradeId === 10 || gradeId === 9) {
-    if (OrganizationIds) {
-      OrganizationIds.forEach(function (value, index, array) {
-        OrgIds.push(Number(value));
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   var gradeId = parseInt(req.user.user_grade, 0);//gradeId
+   var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+   var branchId = parseInt(req.user.branch, 0);//branchId
+   var _super = parseInt(req.query._super, 0);//_super
+   var littleStatus = req.query.littleStatus;//littleStatus
+   var OrganizationIds = req.query.OrganizationIds;//OrganizationIds
+   var OrgIds = [];
+   if (gradeId === 10 || gradeId === 9) {
+   if (OrganizationIds) {
+   OrganizationIds.forEach(function (value, index, array) {
+   OrgIds.push(Number(value));
+   });
+   }
+   }
+   // console.info('OrgIds', OrgIds);
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
+   } else if (id !== '0') {*/
+  LittleWishTable.findOne({
+    where: {littleId: id}
+  }).then(function (littleWishTable) {
+    if (!littleWishTable) {
+      logger.error('No littleWishTable with that identifier has been found');
+      return res.status(404).send({
+        message: 'No littleWishTable with that identifier has been found'
       });
     }
-  }
-  // console.info('OrgIds', OrgIds);
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
-  } else if (id !== '0') {*/
-    LittleWishTable.findOne({
-      where: {littleId: id}
-    }).then(function (littleWishTable) {
-      if (!littleWishTable) {
-        logger.error('No littleWishTable with that identifier has been found');
-        return res.status(404).send({
-          message: 'No littleWishTable with that identifier has been found'
-        });
-      }
-      req.model = littleWishTable;
-      next();
-    }).catch(function (err) {
-      logger.error('littleWishTable ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
-      });
+    req.model = littleWishTable;
+    next();
+  }).catch(function (err) {
+    logger.error('littleWishTable ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
- // }
+  });
+  // }
 };

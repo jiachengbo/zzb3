@@ -213,16 +213,16 @@ exports.list = function (req, res) {
   } else if (cont) {
     listCount(req, res, gradeId, roleId, branchId, _super);
   }
-/*  var ProblemWall = sequelize.model('ProblemWall');
+  /*  var ProblemWall = sequelize.model('ProblemWall');
 
-  ProblemWall.findAll({
-    order: 'id desc'
-  }).then(function (problemWall) {
-    return res.jsonp(problemWall);
-  }).catch(function (err) {
-    logger.error('problemWall list error:', err);
-    return res.status(422).send(err);
-  });*/
+   ProblemWall.findAll({
+   order: 'id desc'
+   }).then(function (problemWall) {
+   return res.jsonp(problemWall);
+   }).catch(function (err) {
+   logger.error('problemWall list error:', err);
+   return res.status(422).send(err);
+   });*/
 };
 
 
@@ -334,50 +334,50 @@ function listCount(req, res, gradeId, roleId, branchId, _super) {
  */
 exports.problemWallByID = function (req, res, next, id) {
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
-  var offset = parseInt(req.query.offset, 0);//10 每页总数
-  var gradeId = parseInt(req.user.user_grade, 0);//gradeId
-  var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
-  var branchId;
-  if (gradeId === 10) {
-    branchId = req.query.orgbranch;
-  } else if (gradeId === 9) {
-    branchId = req.query.orgbranch;
-  } else {
-    branchId = parseInt(req.user.branch, 0);
-  }
-  var _super;
-  if (gradeId === 10) {
-    _super = req.query.genersuper;
-  } else if (gradeId === 9) {
-    _super = req.query.genersuper;
-  } else {
-    parseInt(req.user.branch, 0);
-  }*/
+   var offset = parseInt(req.query.offset, 0);//10 每页总数
+   var gradeId = parseInt(req.user.user_grade, 0);//gradeId
+   var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+   var branchId;
+   if (gradeId === 10) {
+   branchId = req.query.orgbranch;
+   } else if (gradeId === 9) {
+   branchId = req.query.orgbranch;
+   } else {
+   branchId = parseInt(req.user.branch, 0);
+   }
+   var _super;
+   if (gradeId === 10) {
+   _super = req.query.genersuper;
+   } else if (gradeId === 9) {
+   _super = req.query.genersuper;
+   } else {
+   parseInt(req.user.branch, 0);
+   }*/
   var ProblemWall = sequelize.model('ProblemWall');
   var ProblemWallRec = sequelize.model('ProblemWallRec');
   /*if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, gradeId, roleId, branchId, _super);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, gradeId, roleId, branchId, _super);
-  } else if (id !== '0') {*/
-    ProblemWall.findOne({
-      where: {id: id}
-    }).then(function (problemWall) {
-      if (!problemWall) {
-        logger.error('No problemWall with that identifier has been found');
-        return res.status(404).send({
-          message: 'No problemWall with that identifier has been found'
-        });
-      }
-      req.model = problemWall;
-      next();
-    }).catch(function (err) {
-      //return next(err);
-      logger.error('problemWall ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+   listByPage(req, res, limit, offset, gradeId, roleId, branchId, _super);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, gradeId, roleId, branchId, _super);
+   } else if (id !== '0') {*/
+  ProblemWall.findOne({
+    where: {id: id}
+  }).then(function (problemWall) {
+    if (!problemWall) {
+      logger.error('No problemWall with that identifier has been found');
+      return res.status(404).send({
+        message: 'No problemWall with that identifier has been found'
       });
+    }
+    req.model = problemWall;
+    next();
+  }).catch(function (err) {
+    //return next(err);
+    logger.error('problemWall ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
+  });
 //  }
 };
 /*

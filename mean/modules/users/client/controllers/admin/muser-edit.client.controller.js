@@ -140,9 +140,9 @@
           descText = $stateParams.value.value.firstName;
         }
         var namedagn = descText.slice(-3);
-        var zhisname = descText.slice(-2);
+        vm.zhisname = descText.slice(-2);
         var zhibuparent;
-        if (namedagn === '党支部' || namedagn === '总支部' || zhisname === '支部') {
+        if (namedagn === '党支部' || namedagn === '总支部' || vm.zhisname === '支部') {
           if (parentIds !== 0 && parentIds !== 1) {
             get($stateParams.value);
           }
@@ -295,13 +295,13 @@
             } else {
               angular.forEach(vm.dj_PartyBranch, function (value, key) {
                 if (vm.select_workpostion.descText && vm.select_workpostion.user_grade > 4 || vm.select_workpostion.descText && !vm.select_workpostion.user_grade) {
-                  var num;
-                  if (zhisname) {
-                    num = 2;
+                  var nums;
+                  if (vm.zhisname) {
+                    nums = 2;
                   } else {
-                    num = 3;
+                    nums = 3;
                   }
-                  if (value.simpleName.match(vm.select_workpostion.descText.slice(0, -num))) {
+                  if (value.simpleName.match(vm.select_workpostion.descText.slice(0, -nums))) {
                     if (supersss) {
                       if (supersss === value.super) {
                         this.push(value);

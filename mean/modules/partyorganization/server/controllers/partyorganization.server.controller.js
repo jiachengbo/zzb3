@@ -110,7 +110,7 @@ exports.list = function (req, res) {
     listByPage(req, res, limit, offset, type, OrganizationId, generalbranch);
   } else if (cont) {
     listCount(req, res, type, OrganizationId, generalbranch);
-  }else {
+  } else {
     dj_PartyBranch.findAll({
       order: 'createDate DESC'
     }).then(function (dj_PartyBranch) {
@@ -128,34 +128,34 @@ exports.list = function (req, res) {
 exports.dj_PartyBranchByID = function (req, res, next, id) {
   var dj_PartyBranch = sequelize.model('dj_PartyBranch');
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  var type = req.query.type;//所属部门党委或街道党工委ID
-  var OrganizationId = req.query.OrganizationId;
-  var generalbranch = req.query.generalbranch;
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, type, OrganizationId, generalbranch);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, type, OrganizationId, generalbranch);
-  } else if (id !== '0') {*/
-    dj_PartyBranch.findOne({
-      where: {OrganizationId: id}
-    }).then(function (dj_PartyBranch) {
-      if (!dj_PartyBranch) {
-        logger.error('No dj_PartyBranch with that identifier has been found');
-        return res.status(404).send({
-          message: 'No dj_PartyBranch with that identifier has been found'
-        });
-      }
-
-      req.model = dj_PartyBranch;
-      next();
-    }).catch(function (err) {
-      //return next(err);
-      logger.error('dj_PartyBranch ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   var type = req.query.type;//所属部门党委或街道党工委ID
+   var OrganizationId = req.query.OrganizationId;
+   var generalbranch = req.query.generalbranch;
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, type, OrganizationId, generalbranch);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, type, OrganizationId, generalbranch);
+   } else if (id !== '0') {*/
+  dj_PartyBranch.findOne({
+    where: {OrganizationId: id}
+  }).then(function (dj_PartyBranch) {
+    if (!dj_PartyBranch) {
+      logger.error('No dj_PartyBranch with that identifier has been found');
+      return res.status(404).send({
+        message: 'No dj_PartyBranch with that identifier has been found'
       });
+    }
+
+    req.model = dj_PartyBranch;
+    next();
+  }).catch(function (err) {
+    //return next(err);
+    logger.error('dj_PartyBranch ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
+  });
 //  }
 };
 //----分页

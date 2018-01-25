@@ -138,10 +138,22 @@ exports.update = function (req, res) {
   req.body.user_grade = role.UserGradeID;
   req.body.displayName = User.genDisplayName(req.body.firstName, req.body.lastName);
   var user = req.model;
+//  var id = req.body.id;
 
-
+  /*User.findOne({
+   where: {id: id}
+   }).then(function (user) {
+   if (user.dataValues.department_id === req.body.department_id) {
+   getupdata();
+   } else if (user.dataValues.department_id !== req.body.department_id) {
+   user.dataValues.department_id = req.body.department_id;
+   req.body = user.dataValues;
+   getupdata();
+   }
+   });*/
   //model.build 不会将非表字段加入实例，而instance.update会将所有参数加入实例
   //如果使用了update(req.body),没有使用save,就不需要再调用user.set('wps', req.body.wps, {raw: true})设置新关联内容了
+  /// function getupdata(){
   user.update(req.body).then(function () {
     if (req.body.wps && Array.isArray(req.body.wps)) {
       var workpositions = req.body.wps.map(function (workposition) {
@@ -158,6 +170,8 @@ exports.update = function (req, res) {
       message: errorHandler.getErrorMessage(err)
     });
   });
+  // }
+//  getupdata();
 };
 
 /**

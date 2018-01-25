@@ -248,7 +248,10 @@ exports.list = function (req, res) {
   var ProjectTable = sequelize.model('ProjectTable');
   var ProjectRenList = sequelize.model('ProjectRenList');
   var grade1 = req.user.user_grade;
-  var grade = grade1 ? grade1 : parseInt(req.query.gradeId);
+  var grade = parseInt(req.query.gradeId, 0);
+  grade = grade || grade1;
+  console.log(req.query.gradeId, grade);
+  // var grade = grade1 ? grade1 : parseInt(req.query.gradeId);
   var branch = req.query.branch;
   var generalBranch = req.query.generalBranch;
   var role = req.query.role;
@@ -272,7 +275,6 @@ exports.list = function (req, res) {
       branch = JSON.parse(branch);
     }
   }
-  console.log(grade);
   if (grade === 1) {
     whereren = {
       gradeId: grade
@@ -487,20 +489,22 @@ exports.list = function (req, res) {
     }
   }
 
-  console.log(whereren);
   if (sum) {
     listByPage(req, res, limit, offset, grade1, role, supers, branch1, whereren, leibie);
   } else if (cont) {
     listCount(req, res, grade1, role, supers, branch1, whereren, leibie);
-  } else if (leibie) {
-    if (leibie === '创建') {
-      chuangjian(leibie);
-    } else {
-      getshuju();
-    }
   } else {
-    chuangjian();
+    if (leibie) {
+      if (leibie === '创建') {
+        chuangjian(leibie);
+      } else {
+        getshuju();
+      }
+    } else {
+      chuangjian();
+    }
   }
+
 };
 
 /**
@@ -509,57 +513,57 @@ exports.list = function (req, res) {
 exports.projectByID = function (req, res, next, id) {
   var ProjectTable = sequelize.model('ProjectTable');
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  var grade = req.user.user_grade;
-  var branch = (grade === 9 || grade === 10) ? req.query.branch : req.user.branch;
-  var role = req.query.role;
-  var generalBranch = req.query.generalBranch;
-  var supers = req.query.super;
-  var leibie = req.query.leibie;
-  var whereren;
-  if (grade === 1) {
-    whereren = {
-      gradeId: grade
-    };
-  } else if (grade === 4 || grade === 5) {
-    whereren = {
-      gradeId: grade,
-      roleId: role
-    };
-  } else if (grade === 9 || grade === 10) {
-    whereren = {
-      gradeId: grade,
-      generalBranch: generalBranch
-    };
-  } else if (grade === 6 || grade === 7) {
-    whereren = {
-      gradeId: grade,
-      branchId: branch
-    };
-  }
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, grade, role, supers, branch, whereren, leibie);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, grade, role, supers, branch, whereren, leibie);
-  } else if (id !== '0') {*/
-    ProjectTable.findOne({
-      where: {ProjectId: id}
-    }).then(function (ProjectTable) {
-      if (!ProjectTable) {
-        logger.error('No ProjectTable with that identifier has been found');
-        return res.status(404).send({
-          message: 'No ProjectTable with that identifier has been found'
-        });
-      }
-      req.model = ProjectTable;
-      next();
-    }).catch(function (err) {
-      //return next(err);
-      logger.error('ProjectTable ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   var grade = req.user.user_grade;
+   var branch = (grade === 9 || grade === 10) ? req.query.branch : req.user.branch;
+   var role = req.query.role;
+   var generalBranch = req.query.generalBranch;
+   var supers = req.query.super;
+   var leibie = req.query.leibie;
+   var whereren;
+   if (grade === 1) {
+   whereren = {
+   gradeId: grade
+   };
+   } else if (grade === 4 || grade === 5) {
+   whereren = {
+   gradeId: grade,
+   roleId: role
+   };
+   } else if (grade === 9 || grade === 10) {
+   whereren = {
+   gradeId: grade,
+   generalBranch: generalBranch
+   };
+   } else if (grade === 6 || grade === 7) {
+   whereren = {
+   gradeId: grade,
+   branchId: branch
+   };
+   }
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, grade, role, supers, branch, whereren, leibie);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, grade, role, supers, branch, whereren, leibie);
+   } else if (id !== '0') {*/
+  ProjectTable.findOne({
+    where: {ProjectId: id}
+  }).then(function (ProjectTable) {
+    if (!ProjectTable) {
+      logger.error('No ProjectTable with that identifier has been found');
+      return res.status(404).send({
+        message: 'No ProjectTable with that identifier has been found'
       });
+    }
+    req.model = ProjectTable;
+    next();
+  }).catch(function (err) {
+    //return next(err);
+    logger.error('ProjectTable ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
+  });
 //  }
 };
 

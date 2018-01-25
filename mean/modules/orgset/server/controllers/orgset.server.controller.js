@@ -327,7 +327,7 @@ exports.delete = function (req, res) {
 exports.list = function (req, res) {
   var Orgset = sequelize.model('OrgSet');
   var OrgTable = sequelize.model('OrgTable');
-  var orgId = req.query.orgId;
+ // var orgId = req.query.orgId;
   var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var street = req.query.street;
@@ -339,7 +339,7 @@ exports.list = function (req, res) {
     listByPage(req, res, limit, offset, orgId, community, street);
   } else if (cont) {
     listCount(req, res, orgId, community, street);
-  }else {
+  } else {
     Orgset.findAll({
       include: [
         {
@@ -400,33 +400,33 @@ function listCount(req, res, orgId, community, street) {
 exports.orgsetByID = function (req, res, next, id) {
   var Orgset = sequelize.model('OrgSet');
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  var street = req.query.street;
-  var orgId = parseInt(req.query.orgId, 0);
-  var community = req.query.community;
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, orgId, community, street);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, orgId, community, street);
-  } else if (id !== '0') {*/
-    Orgset.findOne({
-      where: {id: id}
-    }).then(function (orgset) {
-      if (!orgset) {
-        logger.error('No orgset with that identifier has been found');
-        return res.status(404).send({
-          message: 'No orgset with that identifier has been found'
-        });
-      }
-
-      req.model = orgset;
-      next();
-    }).catch(function (err) {
-      logger.error('appeal ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   var street = req.query.street;
+   var orgId = parseInt(req.query.orgId, 0);
+   var community = req.query.community;
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, orgId, community, street);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, orgId, community, street);
+   } else if (id !== '0') {*/
+  Orgset.findOne({
+    where: {id: id}
+  }).then(function (orgset) {
+    if (!orgset) {
+      logger.error('No orgset with that identifier has been found');
+      return res.status(404).send({
+        message: 'No orgset with that identifier has been found'
       });
+    }
+
+    req.model = orgset;
+    next();
+  }).catch(function (err) {
+    logger.error('appeal ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
+  });
 //  }
 };
 

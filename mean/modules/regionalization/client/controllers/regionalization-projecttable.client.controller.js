@@ -401,7 +401,12 @@
     function refreshRecordCount(queryParam) {
       ProjectService.query(queryParam).$promise
         .then(function (result) {
-          vm.gridOptions.totalItems = result[0].sum;
+          console.log(result);
+          if (result.length > 0) {
+            vm.gridOptions.totalItems = result[0].sum;
+          } else {
+            vm.gridOptions.totalItems = 0;
+          }
         })
         .then(function () {
           refreshPageData(1, vm.gridOptions.paginationPageSize);

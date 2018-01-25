@@ -12,7 +12,14 @@
     vm.orgId = $window.parseInt($location.search().orgId);
     vm.street = $location.search().street ? $window.parseInt($location.search().street) : '';
     vm.partyid = $window.parseInt($location.search().partyid);
-    vm.commun = $location.search().commun ? $location.search().commun : vm.orgId < 4 ? '' : '0';
+    if ($location.search().commun) {
+      vm.commun = $location.search().commun;
+    } else if ((vm.orgId < 4) && !($location.search().commun)) {
+      vm.commun = '';
+    } else if ((vm.orgId > 4) && !($location.search().commun)) {
+      vm.commun = '0';
+    }
+    //vm.commun = $location.search().commun ? $location.search().commun : vm.orgId < 4 ? '' : '0';
     if (vm.street) {
       if (vm.commun !== '0') {
         vm.streetperson = {

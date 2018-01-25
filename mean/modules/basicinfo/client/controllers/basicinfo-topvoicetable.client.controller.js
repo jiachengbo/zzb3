@@ -177,7 +177,7 @@
     //分页参数
     vm.queryParam = {
       type: vm.typeid,
-      cont:true,
+      cont: true
     };
     //刷新记录总数
     refreshRecordCount(vm.queryParam);

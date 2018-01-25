@@ -176,7 +176,8 @@
       priority: 0,
       restrict: 'A',
       link: function (scope, element, attrs) {
-        setHeightValue(scope, 'max-height', $window, attrs.autoMaxHeight, element);
+        element.css('max-height', calcHeight($window, attrs.autoMaxHeight, element) + 'px');
+        //setHeightValue(scope, 'max-height', $window, attrs.autoMaxHeight, element);
       }
     };
   }

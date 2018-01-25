@@ -292,11 +292,11 @@ exports.list = function (req, res) {
   var type = req.query.type;
   var cont = req.query.cont;
   var sum = req.query.sum;
-  if(cont){
+  if (cont) {
     listCount(req, res, type);
-  }else if(sum){
+  } else if (sum) {
     listByPage(req, res, limit, offset, type);
-  }else {
+  } else {
     TopVoiceTable.findAll({
       where: {
         type: type
@@ -317,33 +317,33 @@ exports.list = function (req, res) {
 exports.topvoiceinfoByID = function (req, res, next, id) {
   var TopVoiceTable = sequelize.model('TopVoiceTable');
   /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  var type = req.query.type;
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, type);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, type);
-  } else if (id !== '0') {*/
-    TopVoiceTable.findOne({
-      where: {id: id}
-    }).then(function (TopVoiceTable) {
-      if (!TopVoiceTable) {
-        logger.error('No TopVoiceTable with that identifier has been found');
-        return res.status(404).send({
-          message: 'No TopVoiceTable with that identifier has been found'
-        });
-      }
-
-      req.model = TopVoiceTable;
-      next();
-    }).catch(function (err) {
-      //return next(err);
-      logger.error('TopVoiceTable ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   var type = req.query.type;
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, type);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, type);
+   } else if (id !== '0') {*/
+  TopVoiceTable.findOne({
+    where: {id: id}
+  }).then(function (TopVoiceTable) {
+    if (!TopVoiceTable) {
+      logger.error('No TopVoiceTable with that identifier has been found');
+      return res.status(404).send({
+        message: 'No TopVoiceTable with that identifier has been found'
       });
+    }
+
+    req.model = TopVoiceTable;
+    next();
+  }).catch(function (err) {
+    //return next(err);
+    logger.error('TopVoiceTable ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
- // }
+  });
+  // }
 };
 //----分页
 function listByPage(req, res, limit, offset, type) {

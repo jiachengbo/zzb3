@@ -177,7 +177,7 @@
     //监测登录事件
     if (appService.user) {
       fette();
-    }else {
+    } else {
       $scope.$on('userLogin', fette);
     }
     //待处理任务

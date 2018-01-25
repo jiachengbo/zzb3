@@ -139,14 +139,14 @@ exports.list = function (req, res) {
   if (cont) {
     where = {
       where: {
-        workbranch: type,
+        workbranch: type
       },
       attributes: [[sequelize.fn('COUNT', sequelize.col('PartyId')), 'sum']]
     };
   } else if (sum) {
     where = {
       where: {
-        workbranch: type,
+        workbranch: type
       },
       include: [
         {
