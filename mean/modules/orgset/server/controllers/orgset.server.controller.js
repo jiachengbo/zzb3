@@ -327,26 +327,37 @@ exports.delete = function (req, res) {
 exports.list = function (req, res) {
   var Orgset = sequelize.model('OrgSet');
   var OrgTable = sequelize.model('OrgTable');
-
   var orgId = req.query.orgId;
-  console.log(orgId);
-  Orgset.findAll({
-    include: [
-      {
-        model: OrgTable,
-        attributes: ['orgName']
-      }
-    ],
-    where: {
-      orgId: orgId
-    },
-    order: 'id desc'
-  }).then(function (orgset) {
-    return res.jsonp(orgset);
-  }).catch(function (err) {
-    logger.error('orgset list error:', err);
-    return res.status(422).send(err);
-  });
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
+  var street = req.query.street;
+  var orgId = parseInt(req.query.orgId, 0);
+  var community = req.query.community;
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if (sum) {
+    listByPage(req, res, limit, offset, orgId, community, street);
+  } else if (cont) {
+    listCount(req, res, orgId, community, street);
+  }else {
+    Orgset.findAll({
+      include: [
+        {
+          model: OrgTable,
+          attributes: ['orgName']
+        }
+      ],
+      where: {
+        orgId: orgId
+      },
+      order: 'id desc'
+    }).then(function (orgset) {
+      return res.jsonp(orgset);
+    }).catch(function (err) {
+      logger.error('orgset list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 //---------mysql-分页------------[StreetOffice_zzb].[dbo].[OrgSet]
@@ -388,7 +399,7 @@ function listCount(req, res, orgId, community, street) {
  */
 exports.orgsetByID = function (req, res, next, id) {
   var Orgset = sequelize.model('OrgSet');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var street = req.query.street;
   var orgId = parseInt(req.query.orgId, 0);
@@ -397,7 +408,7 @@ exports.orgsetByID = function (req, res, next, id) {
     listByPage(req, res, limit, offset, orgId, community, street);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, orgId, community, street);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     Orgset.findOne({
       where: {id: id}
     }).then(function (orgset) {
@@ -416,7 +427,7 @@ exports.orgsetByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+//  }
 };
 
 /*

@@ -285,18 +285,31 @@ exports.delete = function (req, res) {
  * List of Appeal
  */
 exports.list = function (req, res) {
-  var Appeal = sequelize.model('appeal');
-
-  var jbid = req.params.streetID;
+  //var Appeal = sequelize.model('appeal');
+  var grade = parseInt(req.user.user_grade, 0);
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
+  var offset = parseInt(req.query.offset, 0);//10 每页总数
+  var jb = parseInt(req.query.jb, 0);
+  var PartyBranchID = req.query.PartyBranchID;
+  var gradeId = grade === 1 ? req.query.gradeId : grade;//gradeId
+  var roleId = grade === 1 ? req.query.role : parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+  var branchId = grade > 8 ? PartyBranchID : parseInt(req.user.branch, 0);
+  var cont = req.query.cont;
+  var sum = req.query.sum;
   // logger.info('----------------------------------------------');
-  Appeal.findAll({
+  if (sum) {
+    listByPage(req, res, limit, offset, jb, gradeId, roleId, branchId);
+  } else if (cont) {
+    listCount(req, res, jb, gradeId, roleId, branchId);
+  }
+  /*Appeal.findAll({
     order: 'id desc'
   }).then(function (appeal) {
     return res.jsonp(appeal);
   }).catch(function (err) {
     logger.error('appeal list error:', err);
     return res.status(422).send(err);
-  });
+  });*/
 };
 //---------mysql-分页------------
 function listByPage(req, res, limit, offset, jb, gradeId, roleId, branchId) {
@@ -346,7 +359,7 @@ function listCount(req, res, jb, gradeId, roleId, branchId) {
  */
 exports.appealByID = function (req, res, next, id) {
   var Appeal = sequelize.model('appeal');
-  var grade = parseInt(req.user.user_grade, 0);
+ /* var grade = parseInt(req.user.user_grade, 0);
   var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
   var offset = parseInt(req.query.offset, 0);//10 每页总数
   var jb = parseInt(req.query.jb, 0);
@@ -358,7 +371,7 @@ exports.appealByID = function (req, res, next, id) {
     listByPage(req, res, limit, offset, jb, gradeId, roleId, branchId);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, jb, gradeId, roleId, branchId);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     Appeal.findOne({
       where: {appealId: id}
     }).then(function (appeal) {
@@ -377,5 +390,5 @@ exports.appealByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+// }
 };

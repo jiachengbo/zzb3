@@ -447,25 +447,19 @@
 //分页3参数
     if (userGrade === 10) {
       vm.queryParam = {
-        problemWallId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         genersuper: genersuper,
         orgbranch: orgbranch
       };
     } else if (userGrade === 9) {
       vm.queryParam = {
-        problemWallId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         genersuper: genersuper,
         orgbranch: orgbranch
       };
     } else {
       vm.queryParam = {
-        problemWallId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         _super: _super
       };
     }
@@ -485,7 +479,7 @@
       var pageParam;
       if (userGrade === 10) {
         pageParam = {
-          problemWallId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageSize,
           genersuper: genersuper,
@@ -493,7 +487,7 @@
         };
       } else if (userGrade === 9) {
         pageParam = {
-          problemWallId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageSize,
           genersuper: genersuper,
@@ -501,7 +495,7 @@
         };
       } else {
         pageParam = {
-          problemWallId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageSize,
           _super: _super

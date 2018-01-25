@@ -410,6 +410,8 @@
           appService.basicMsg = true;
           menuService.leftMenusCollapsed = false;
           appService.user.roles = vm.role2;
+          //cosole.log
+          console.log(appService.user);
           $state.go('home');
           /*$rootScope.$watch('$rootScope.sidemenu', function () {
            $rootScope.sidemenu = menuService.getMenu('sidemenu');

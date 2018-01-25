@@ -3,7 +3,7 @@
 /**
  * Module dependencies
  */
-var problemWallPolicy = require('../policies/problemWall.server.policy'),
+var problemWallPolicy = require('../policies/problemwall.server.policy'),
   problemWall = require('../controllers/problemWall.server.controller');
 
 module.exports = function (app) {

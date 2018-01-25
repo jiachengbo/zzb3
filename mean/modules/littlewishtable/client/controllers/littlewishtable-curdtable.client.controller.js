@@ -328,9 +328,7 @@
      });*/
     //分页3参数
     vm.queryParam = {
-      littleId: 0,
-      limit: 0,
-      offset: 0,
+      cont:true,
       littleStatus: littleStatus,
       _super: _super,
       OrganizationIds: OrganizationIds
@@ -342,7 +340,7 @@
       vm.gridOptions.paginationCurrentPage = pageNumber;//当前页码
       //页面，记录数限制参数
       var pageParam = {
-        littleId: 0,
+        sum: true,
         limit: (pageNumber - 1) * pageSize,
         offset: pageNumber * pageSize,
         littleStatus: littleStatus,

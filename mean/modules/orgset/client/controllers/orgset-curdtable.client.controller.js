@@ -389,9 +389,7 @@
     //分页3参数
     vm.showchange = function (num) {
       vm.queryParam = {
-        orgsetId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         street: vm.orgId - 3,
         orgId: vm.orgId,
         community: num
@@ -400,18 +398,14 @@
     };
     if (vm.orgId > 3) {
       vm.queryParam = {
-        orgsetId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         street: vm.orgId - 3,
         orgId: vm.orgId,
         community: vm.datashuju
       };
     } else {
       vm.queryParam = {
-        orgsetId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         orgId: vm.orgId
       };
     }
@@ -425,7 +419,7 @@
       var pageParam;
       if (vm.orgId > 3) {
         pageParam = {
-          orgsetId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageNumber * pageSize,
           street: vm.orgId - 3,
@@ -434,7 +428,7 @@
         };
       } else {
         pageParam = {
-          orgsetId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageNumber * pageSize,
           orgId: vm.orgId

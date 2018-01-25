@@ -108,16 +108,39 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var LittleWishTable = sequelize.model('LittleWishTable');
-  // var User = sequelize.model('User');
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
+  var gradeId = parseInt(req.user.user_grade, 0);//gradeId
+  var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+  var branchId = parseInt(req.user.branch, 0);//branchId
+  var _super = parseInt(req.query._super, 0);//_super
+  var littleStatus = req.query.littleStatus;//littleStatus
+  var OrganizationIds = req.query.OrganizationIds;//OrganizationIds
+  var OrgIds = [];
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if (gradeId === 10 || gradeId === 9) {
+    if (OrganizationIds) {
+      OrganizationIds.forEach(function (value, index, array) {
+        OrgIds.push(Number(value));
+      });
+    }
+  }
+  if (sum) {
+    listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
+  } else if (cont) {
+    listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
+  }else {
+    LittleWishTable.findAll({
+      order: 'littleId desc'
+    }).then(function (littleWishTable) {
+      return res.jsonp(littleWishTable);
+    }).catch(function (err) {
+      logger.error('littleWishTable list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 
-  LittleWishTable.findAll({
-    order: 'littleId desc'
-  }).then(function (littleWishTable) {
-    return res.jsonp(littleWishTable);
-  }).catch(function (err) {
-    logger.error('littleWishTable list error:', err);
-    return res.status(422).send(err);
-  });
 };
 
 //----分页
@@ -269,7 +292,7 @@ function listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, Or
  */
 exports.littleWishTableByID = function (req, res, next, id) {
   var LittleWishTable = sequelize.model('LittleWishTable');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var gradeId = parseInt(req.user.user_grade, 0);//gradeId
   var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
@@ -277,8 +300,6 @@ exports.littleWishTableByID = function (req, res, next, id) {
   var _super = parseInt(req.query._super, 0);//_super
   var littleStatus = req.query.littleStatus;//littleStatus
   var OrganizationIds = req.query.OrganizationIds;//OrganizationIds
-  console.log(OrganizationIds);
-  //OrganizationIds = JSON.parse(OrganizationIds);
   var OrgIds = [];
   if (gradeId === 10 || gradeId === 9) {
     if (OrganizationIds) {
@@ -292,7 +313,7 @@ exports.littleWishTableByID = function (req, res, next, id) {
     listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     LittleWishTable.findOne({
       where: {littleId: id}
     }).then(function (littleWishTable) {
@@ -310,5 +331,5 @@ exports.littleWishTableByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+ // }
 };

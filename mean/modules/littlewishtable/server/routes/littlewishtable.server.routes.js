@@ -3,7 +3,7 @@
 /**
  * Module dependencies
  */
-var littleWishTablePolicy = require('../policies/littleWishTable.server.policy'),
+var littleWishTablePolicy = require('../policies/littlewishtable.server.policy'),
   littleWishTable = require('../controllers/littleWishTable.server.controller');
 
 module.exports = function (app) {

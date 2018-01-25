@@ -287,18 +287,28 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var TopVoiceTable = sequelize.model('TopVoiceTable');
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
   var type = req.query.type;
-  TopVoiceTable.findAll({
-    where: {
-      type: type
-    },
-    order: 'sbtime asc'
-  }).then(function (TopVoiceTable) {
-    return res.jsonp(TopVoiceTable);
-  }).catch(function (err) {
-    logger.error('TopVoiceTable list error:', err);
-    return res.status(422).send(err);
-  });
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if(cont){
+    listCount(req, res, type);
+  }else if(sum){
+    listByPage(req, res, limit, offset, type);
+  }else {
+    TopVoiceTable.findAll({
+      where: {
+        type: type
+      },
+      order: 'sbtime asc'
+    }).then(function (TopVoiceTable) {
+      return res.jsonp(TopVoiceTable);
+    }).catch(function (err) {
+      logger.error('TopVoiceTable list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 /**
@@ -306,14 +316,14 @@ exports.list = function (req, res) {
  */
 exports.topvoiceinfoByID = function (req, res, next, id) {
   var TopVoiceTable = sequelize.model('TopVoiceTable');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var type = req.query.type;
   if (offset !== 0 && id === '0') {
     listByPage(req, res, limit, offset, type);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, type);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     TopVoiceTable.findOne({
       where: {id: id}
     }).then(function (TopVoiceTable) {
@@ -333,7 +343,7 @@ exports.topvoiceinfoByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+ // }
 };
 //----分页
 function listByPage(req, res, limit, offset, type) {

@@ -268,26 +268,20 @@
 //分页3参数
     if (usergrade === 9 || usergrade === 10) {
       vm.queryParam = {
-        buildbuildId: 0,
-        branch: dzzbranch,
-        limit: 0,
-        offset: 0
+        cont: true,
+        branch: dzzbranch
       };
     } else if (usergrade === 1) {
       vm.grade = 1;
       vm.roles = 25;
       vm.queryParam = {
-        buildbuildId: 0,
-        limit: 0,
+        cont: true,
         gradeId: vm.grade,
-        role: vm.roles,
-        offset: 0
+        role: vm.roles
       };
     } else {
       vm.queryParam = {
-        buildbuildId: 0,
-        limit: 0,
-        offset: 0
+        cont: true,
       };
     }
     //分页4： 刷新记录总数
@@ -299,14 +293,14 @@
       var pageParam;
       if (usergrade === 9 || usergrade === 10) {
         pageParam = {
-          buildbuildId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           offset: pageSize,
           branch: dzzbranch
         };
       } else {
         pageParam = {
-          buildbuildId: 0,
+          sum: true,
           limit: (pageNumber - 1) * pageSize,
           gradeId: vm.grade,
           role: vm.roles,
@@ -382,11 +376,9 @@
       vm.grade = data.GradeID;
       vm.roles = data.roleID;
       vm.queryParam = {
-        buildbuildId: 0,
+        cont: true,
         gradeId: vm.grade,
-        role: vm.roles,
-        limit: 0,
-        offset: 0
+        role: vm.roles
       };
       refreshRecordCount(vm.queryParam);
     };

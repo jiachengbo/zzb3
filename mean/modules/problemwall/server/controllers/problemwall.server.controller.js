@@ -186,6 +186,33 @@ exports.delete = function (req, res) {
  * List of ProblemWall
  */
 exports.list = function (req, res) {
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
+  var offset = parseInt(req.query.offset, 0);//10 每页总数
+  var gradeId = parseInt(req.user.user_grade, 0);//gradeId
+  var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+  var branchId;
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if (gradeId === 10) {
+    branchId = req.query.orgbranch;
+  } else if (gradeId === 9) {
+    branchId = req.query.orgbranch;
+  } else {
+    branchId = parseInt(req.user.branch, 0);
+  }
+  var _super;
+  if (gradeId === 10) {
+    _super = req.query.genersuper;
+  } else if (gradeId === 9) {
+    _super = req.query.genersuper;
+  } else {
+    parseInt(req.user.branch, 0);
+  }
+  if (sum) {
+    listByPage(req, res, limit, offset, gradeId, roleId, branchId, _super);
+  } else if (cont) {
+    listCount(req, res, gradeId, roleId, branchId, _super);
+  }
 /*  var ProblemWall = sequelize.model('ProblemWall');
 
   ProblemWall.findAll({
@@ -306,7 +333,7 @@ function listCount(req, res, gradeId, roleId, branchId, _super) {
  * ProblemWall middleware
  */
 exports.problemWallByID = function (req, res, next, id) {
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
   var offset = parseInt(req.query.offset, 0);//10 每页总数
   var gradeId = parseInt(req.user.user_grade, 0);//gradeId
   var roleId = parseInt(req.user.JCDJ_User_roleID, 0);//roleId
@@ -325,19 +352,14 @@ exports.problemWallByID = function (req, res, next, id) {
     _super = req.query.genersuper;
   } else {
     parseInt(req.user.branch, 0);
-  }
-
-  // var branchId = gradeId === 10 ? req.query.orgbranch : parseInt(req.user.branch, 0);//branchId
-  // var branchId = gradeId === 9 ? req.query.orgbranch : parseInt(req.user.branch, 0);//branchId
-  // var _super = gradeId === 10 ? req.query.genersuper : parseInt(req.query._super, 0);//_super
-  // var _super = gradeId === 9 ? req.query.genersuper : parseInt(req.query._super, 0);//_super
+  }*/
   var ProblemWall = sequelize.model('ProblemWall');
   var ProblemWallRec = sequelize.model('ProblemWallRec');
-  if (offset !== 0 && id === '0') {
+  /*if (offset !== 0 && id === '0') {
     listByPage(req, res, limit, offset, gradeId, roleId, branchId, _super);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, gradeId, roleId, branchId, _super);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     ProblemWall.findOne({
       where: {id: id}
     }).then(function (problemWall) {
@@ -356,7 +378,7 @@ exports.problemWallByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+//  }
 };
 /*
  /!**

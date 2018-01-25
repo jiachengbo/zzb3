@@ -210,9 +210,7 @@
     };
 
     vmo.queryParam = {
-      partyorganizationId: 0,
-      limit: 0,
-      offset: 0,
+      cont: true,
       OrganizationId: vmo.OrganizationId,
       generalbranch: vmo.generalbranch,
       type: vmo.organizationId
@@ -238,7 +236,7 @@
       vmo.gridOptions.paginationCurrentPage = pageNumber;//当前页码
       //页面，记录数限制参数
       var pageParam = {
-        partyorganizationId: 0,
+        sum: true,
         limit: (pageNumber - 1) * pageSize,
         offset: pageNumber * pageSize,
         OrganizationId: vmo.OrganizationId,

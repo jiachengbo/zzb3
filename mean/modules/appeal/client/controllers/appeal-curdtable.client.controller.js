@@ -402,18 +402,14 @@
       vm.grade = 1;
       vm.roles = 25;
       vm.queryParam = {
-        appealId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         gradeId: vm.grade,
         role: vm.roles,
         jb: jb
       };
     } else {
       vm.queryParam = {
-        appealId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         PartyBranchID: generalbranch,
         jb: jb
       };
@@ -426,7 +422,7 @@
       vm.gridOptions.paginationCurrentPage = pageNumber;//当前页码
       //页面，记录数限制参数
       var pageParam = {
-        appealId: 0,
+        sum: true,
         limit: (pageNumber - 1) * pageSize,
         offset: pageNumber * pageSize,
         gradeId: vm.grade,
@@ -509,9 +505,7 @@
       vm.grade = data.GradeID;
       vm.roles = data.roleID;
       vm.queryParam = {
-        appealId: 0,
-        limit: 0,
-        offset: 0,
+        cont: true,
         jb: jb,
         gradeId: vm.grade,
         role: vm.roles

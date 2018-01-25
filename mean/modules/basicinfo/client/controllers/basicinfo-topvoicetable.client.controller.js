@@ -177,9 +177,7 @@
     //分页参数
     vm.queryParam = {
       type: vm.typeid,
-      topvoiceinfoId: 0,
-      limit: 0,
-      offset: 0
+      cont:true,
     };
     //刷新记录总数
     refreshRecordCount(vm.queryParam);
@@ -203,7 +201,7 @@
       //页面，记录数限制参数
       var pageParam = {
         type: vm.typeid,
-        topvoiceinfoId: 0,
+        sum: true,
         limit: (pageNumber - 1) * pageSize,
         offset: pageSize
       };
@@ -212,7 +210,7 @@
         .then(function (data) {
           console.log(data);
           angular.forEach(data, function (value, k) {
-            value.createdate = Timer.format(value.createdate);
+            value.createdate = Timer.format(value.createdate, 'day');
           });
           vm.gridOptions.data = vm.tableData = data;
           return data;

@@ -14,17 +14,12 @@
     var storage = $window.localStorage.getItem('Orgtj');
     var dj_PartyBranch = baseCodeService.getItems('dj_PartyBranch');
     vmo.orgid = 1;
-    vmo.showa = true;
     vmo.dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
     vmo.searchPartyMeber = function (key) {
       PartymemberService.query({key2: key, workbranch: vmo.orgid}).$promise.then(function (data) {
-        if (data.length > 0) {
-          vmo.showa = false;
-        }
         vmo.gridOptions.totalItems = data.length;
         vmo.gridOptions.data = vmo.tableData = data;
       });
-      console.log(vmo.showa);
     };
     var storagedata = JSON.parse(storage);
     if (storage === '{}') {
@@ -192,8 +187,7 @@
         {field: 'WorkPlace', displayName: '工作单位'},
         {field: 'TelNumber', displayName: '联系电话'},
         {field: 'preson_category', displayName: '党员类别'},
-        {field: 'simpleName', displayName: '所属党支部', visible: vmo.showa},
-        {field: 'dj_PartyBranch.simpleName', displayName: '所属党支部', visible: !vmo.showa},
+        {field: 'dj_PartyBranch.simpleName', displayName: '所属党支部'},
         {field: 'sections', displayName: '认领单位（报到社区）'}/*,
          {field: 'createDate', displayName: '创建时间', cellFilter: 'date:\"yyyy-MM-dd\"'}*/
       ],
@@ -220,9 +214,8 @@
       enableGridMenu: false
     };
     vmo.queryParam = {
-      partymemberId: 0,
-      limit: 0,
-      offset: 0,
+      /*partymemberId: 0,*/
+      cont: true,
       workbranch: vmo.superss,
       type: vmo.branch
     };
@@ -233,8 +226,6 @@
       PartymemberService.query(queryParam).$promise
         .then(function (result) {
           vmo.gridOptions.totalItems = result[0].sum;
-        })
-        .then(function () {
           refreshPageData(1, vmo.gridOptions.paginationPageSize);
         })
         .catch(function (err) {
@@ -247,9 +238,10 @@
       vmo.gridOptions.paginationCurrentPage = pageNumber;//当前页码
       //页面，记录数限制参数
       var pageParam = {
-        partymemberId: 0,
-        limit: (pageNumber - 1) * pageSize,
-        offset: pageNumber * pageSize,
+        /*partymemberId: 0,*/
+        sum: true,
+        limit: pageSize,
+        offset: (pageNumber - 1) * pageSize,
         workbranch: vmo.superss,
         type: vmo.branch
       };

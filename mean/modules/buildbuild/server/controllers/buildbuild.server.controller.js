@@ -319,18 +319,29 @@ exports.delete = function (req, res) {
  * List of Buildbuild
  */
 exports.list = function (req, res) {
-
   var Buildbuild = sequelize.model('Buildbuild');
-
-  Buildbuild.findAll({
-    order: 'id desc'
-  }).then(function (buildbuild) {
-    return res.jsonp(buildbuild);
-  }).catch(function (err) {
-    logger.error('buildbuild list error:', err);
-    return res.status(422).send(err);
-  });
-
+  var grade = parseInt(req.user.user_grade, 0);
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
+  var offset = parseInt(req.query.offset, 0);//10 每页总数
+  var gradeId = grade === 1 ? req.query.gradeId : grade;//gradeId
+  var roleId = grade === 1 ? req.query.role : parseInt(req.user.JCDJ_User_roleID, 0);//roleId
+  var branchId = (gradeId === 10 || gradeId === 9) ? req.query.branch : parseInt(req.user.branch, 0);//branchId
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if (sum) {
+    listByPage(req, res, limit, offset, gradeId, roleId, branchId);
+  } else if (cont) {
+    listCount(req, res, gradeId, roleId, branchId);
+  }else {
+    Buildbuild.findAll({
+      order: 'id desc'
+    }).then(function (buildbuild) {
+      return res.jsonp(buildbuild);
+    }).catch(function (err) {
+      logger.error('buildbuild list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 //----分页
@@ -461,18 +472,18 @@ function listCount(req, res, gradeId, roleId, branchId) {
  * Buildbuild middleware
  */
 exports.buildbuildByID = function (req, res, next, id) {
-  var grade = parseInt(req.user.user_grade, 0);
+  /*var grade = parseInt(req.user.user_grade, 0);
   var limit = parseInt(req.query.limit, 0);//(pageNum-1)*10
   var offset = parseInt(req.query.offset, 0);//10 每页总数
   var gradeId = grade === 1 ? req.query.gradeId : grade;//gradeId
   var roleId = grade === 1 ? req.query.role : parseInt(req.user.JCDJ_User_roleID, 0);//roleId
-  var branchId = (gradeId === 10 || gradeId === 9) ? req.query.branch : parseInt(req.user.branch, 0);//branchId
+  var branchId = (gradeId === 10 || gradeId === 9) ? req.query.branch : parseInt(req.user.branch, 0);//branchId*/
   var Buildbuild = sequelize.model('Buildbuild');
-  if (offset !== 0 && id === '0') {
+  /*if (offset !== 0 && id === '0') {
     listByPage(req, res, limit, offset, gradeId, roleId, branchId);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, gradeId, roleId, branchId);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     Buildbuild.findOne({
       where: {id: id}
     }).then(function (buildbuild) {
@@ -490,7 +501,7 @@ exports.buildbuildByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+//  }
 };
 
 /*buildbuildpersonId

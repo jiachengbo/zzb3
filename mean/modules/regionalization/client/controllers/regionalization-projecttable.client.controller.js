@@ -372,22 +372,18 @@
     //分页参数
     if (appService.user.user_grade === 9 || appService.user.user_grade === 10) {
       vm.queryParam = {
-        ProjectId: 0,
-        limit: 0,
+        cont: true,
         role: vm.roleid,
         super: vm.super,
-        offset: 0,
         branch: branch,
         generalBranch: generalBranch
       };
     } else {
       vm.queryParam = {
-        ProjectId: 0,
-        limit: 0,
+        cont: true,
         role: vm.roleid,
         super: vm.super,
-        generalBranch: generalBranch,
-        offset: 0
+        generalBranch: generalBranch
       };
     }
     // 刷新记录总数
@@ -422,7 +418,7 @@
       var pageParam;
       if (appService.user.user_grade === 9 || appService.user.user_grade === 10) {
         pageParam = {
-          ProjectId: 0,
+          sum: true,
           role: vm.roleid,
           super: vm.super,
           branch: branch,
@@ -433,7 +429,7 @@
         };
       } else {
         pageParam = {
-          ProjectId: 0,
+          sum: true,
           role: vm.roleid,
           super: vm.super,
           leibie: vm.dataleiixn,

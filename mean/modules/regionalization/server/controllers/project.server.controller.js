@@ -247,7 +247,8 @@ exports.list = function (req, res) {
   var procount;
   var ProjectTable = sequelize.model('ProjectTable');
   var ProjectRenList = sequelize.model('ProjectRenList');
-  var grade = req.query.gradeId;
+  var grade1 = req.user.user_grade;
+  var grade = grade1 ? grade1 : parseInt(req.query.gradeId);
   var branch = req.query.branch;
   var generalBranch = req.query.generalBranch;
   var role = req.query.role;
@@ -260,29 +261,34 @@ exports.list = function (req, res) {
   var leibie = req.query.leibie;
   var where;
   var whereren;
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
+  var branch1 = (grade === 9 || grade === 10) ? req.query.branch : req.user.branch;
+  var cont = req.query.cont;
+  var sum = req.query.sum;
   //console.log(branch);
   if (branch) {
     if (typeof branch === 'string') {
       branch = JSON.parse(branch);
     }
   }
-  console.log(leibie);
-  if (grade === '1') {
+  console.log(grade);
+  if (grade === 1) {
     whereren = {
       gradeId: grade
     };
-  } else if (grade === '4' || grade === '5') {
+  } else if (grade === 4 || grade === 5) {
     whereren = {
       gradeId: grade,
       roleId: role
     };
-  } else if (grade === '9' || grade === '10') {
+  } else if (grade === 9 || grade === 10) {
     whereren = {
       gradeId: grade,
       generalBranch: generalBranch
     };
-  } else if (grade === '6' || grade === '7') {
-    if (grade === '7' && streetID && communityid) {
+  } else if (grade === 6 || grade === 7) {
+    if (grade === 7 && streetID && communityid) {
       whereren = {
         gradeId: grade,
         streetID: streetID,
@@ -296,7 +302,7 @@ exports.list = function (req, res) {
     }
   }
   if (qita) {
-    if (grade === '2') {
+    if (grade === 2) {
       where = {
         where: {
           gradeId: [2, 4, 6, 9]
@@ -305,7 +311,7 @@ exports.list = function (req, res) {
         offset: pageNum ? (pageNum - 1) * 8 : 0,
         order: 'id desc'
       };
-    } else if (grade === '4' || grade === '5') {
+    } else if (grade === 4 || grade === 5) {
       where = {
         where: {
           roleid: role
@@ -314,7 +320,7 @@ exports.list = function (req, res) {
         offset: pageNum ? (pageNum - 1) * 8 : 0,
         order: 'id desc'
       };
-    } else if (grade === '6' || grade === '9' || grade === '7' || grade === '10') {
+    } else if (grade === 6 || grade === 9 || grade === 7 || grade === 10) {
       where = {
         where: {
           gradeId: grade,
@@ -326,7 +332,7 @@ exports.list = function (req, res) {
       };
     }
   } else {
-    if (grade === '3') {
+    if (grade === 3) {
       where = {
         where: {
           gradeId: grade
@@ -335,7 +341,7 @@ exports.list = function (req, res) {
         offset: pageNum ? (pageNum - 1) * 8 : 0,
         order: 'id desc'
       };
-    } else if (grade === '5') {
+    } else if (grade === 5) {
       where = {
         where: {
           gradeId: grade,
@@ -345,9 +351,9 @@ exports.list = function (req, res) {
         offset: pageNum ? (pageNum - 1) * 8 : 0,
         order: 'id desc'
       };
-    } else if (grade === '7' || grade === '10') {
+    } else if (grade === 7 || grade === 10) {
       if (branch) {
-        if (grade === '10') {
+        if (grade === 10) {
           where = {
             where: {
               gradeId: [7, 10],
@@ -401,7 +407,7 @@ exports.list = function (req, res) {
         if (leibie) {
           return res.jsonp(ProjectTable);
         } else {
-          if (grade === '1') {
+          if (grade === 1) {
             return res.jsonp(ProjectTable);
           } else {
             procount = ProjectTable;
@@ -417,7 +423,7 @@ exports.list = function (req, res) {
         if (leibie) {
           return res.jsonp(ProjectTable);
         } else {
-          if (grade === '1') {
+          if (grade === 1) {
             return res.jsonp(ProjectTable);
           } else {
             prodata = ProjectTable;
@@ -481,16 +487,18 @@ exports.list = function (req, res) {
     }
   }
 
-  if (leibie) {
+  console.log(whereren);
+  if (sum) {
+    listByPage(req, res, limit, offset, grade1, role, supers, branch1, whereren, leibie);
+  } else if (cont) {
+    listCount(req, res, grade1, role, supers, branch1, whereren, leibie);
+  } else if (leibie) {
     if (leibie === '创建') {
-      console.log('进入创建');
       chuangjian(leibie);
     } else {
-      console.log('进入认领');
       getshuju();
     }
   } else {
-    console.log('进入list');
     chuangjian();
   }
 };
@@ -500,7 +508,7 @@ exports.list = function (req, res) {
  */
 exports.projectByID = function (req, res, next, id) {
   var ProjectTable = sequelize.model('ProjectTable');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var grade = req.user.user_grade;
   var branch = (grade === 9 || grade === 10) ? req.query.branch : req.user.branch;
@@ -533,7 +541,7 @@ exports.projectByID = function (req, res, next, id) {
     listByPage(req, res, limit, offset, grade, role, supers, branch, whereren, leibie);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, grade, role, supers, branch, whereren, leibie);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     ProjectTable.findOne({
       where: {ProjectId: id}
     }).then(function (ProjectTable) {
@@ -552,7 +560,7 @@ exports.projectByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+//  }
 };
 
 //----分页
@@ -637,6 +645,7 @@ function listByPage(req, res, limit, offset, grade, role, supers, branch, wherer
       order: 'id desc'
     };
   }
+  console.log(whereren);
   /*var sql = 'select * from ( select p.*, rownum rnum from ' +
    '(select row_number() over(' +
    'order by cast(substring(createDate,1,19) as datetime) desc) as rownum, ' +

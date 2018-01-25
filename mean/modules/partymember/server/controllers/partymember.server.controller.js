@@ -129,43 +129,143 @@ exports.delete = function (req, res) {
 exports.list = function (req, res) {
   var dj_PartyMember = sequelize.model('dj_PartyMember');
   var dj_PartyBranch = sequelize.model('dj_PartyBranch');
-  var workbranch = req.query.workbranch;
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
+  var type = req.query.workbranch;
+  var cont = req.query.cont;
+  var sum = req.query.sum;
   var key2 = req.query.key2;
-  if (workbranch) {
-    dj_PartyMember.findAll({
+  var where;
+  if (cont) {
+    where = {
       where: {
-        workbranch: workbranch,
-        PartyName: {
-          $like: '%' + key2 + '%'
-        }
+        workbranch: type,
+      },
+      attributes: [[sequelize.fn('COUNT', sequelize.col('PartyId')), 'sum']]
+    };
+  } else if (sum) {
+    where = {
+      where: {
+        workbranch: type,
       },
       include: [
         {
           model: dj_PartyBranch,
           attributes: ['simpleName']
         }
-      ]
-    }).then(function (data) {
-      res.jsonp(data);
-    }).catch(function (err) {
-      console.log('出错了。。。。。');
-    });
-  } else {
-    dj_PartyMember.findAll({
-      include: [
-        {
-          model: dj_PartyBranch,
-          attributes: ['simpleName']
-        }
       ],
+      limit: limit,
+      offset: offset,
       order: 'createDate DESC'
-    }).then(function (dj_PartyMember) {
-      return res.jsonp(dj_PartyMember);
-    }).catch(function (err) {
-      logger.error('dj_PartyMember list error:', err);
-      return res.status(422).send(err);
-    });
+    };
+  } else {
+    if (key2) {
+      where = {
+        where: {
+          workbranch: type,
+          PartyName: {
+            $like: '%' + key2 + '%'
+          }
+        },
+        include: [
+          {
+            model: dj_PartyBranch,
+            attributes: ['simpleName']
+          }
+        ]
+      };
+    } else {
+      where = {
+        include: [
+          {
+            model: dj_PartyBranch,
+            attributes: ['simpleName']
+          }
+        ],
+        order: 'createDate DESC'
+      };
+    }
   }
+  dj_PartyMember.findAll(where).then(function (dj_PartyMember) {
+    return res.jsonp(dj_PartyMember);
+  }).catch(function (err) {
+    logger.error('dj_PartyMember list error:', err);
+    return res.status(422).send(err);
+  });
+  /*if(offset && limit){
+   if (offset !== -1) {
+   dj_PartyMember.findAll({
+   where: {
+   workbranch: type,
+   },
+   include: [
+   {
+   model: dj_PartyBranch,
+   attributes: ['simpleName']
+   }
+   ],
+   limit: 20,
+   offset: limit,
+   order: 'createDate DESC'
+   }).then(function (dj_PartyMember) {
+   return res.jsonp(dj_PartyMember);
+   }).catch(function (err) {
+   logger.error('dj_PartyMember list error:', err);
+   return res.status(422).send(err);
+   });
+   }
+   else if (limit === -1 && offset === -1) {
+   dj_PartyMember.findAll({
+   where: {
+   workbranch: type,
+   },
+   attributes: [[sequelize.fn('COUNT', sequelize.col('PartyId')), 'sum']]
+   }).then(function (dj_PartyMember) {
+   return res.jsonp(dj_PartyMember);
+   }).catch(function (err) {
+   logger.error('dj_PartyMember list error:', err);
+   return res.status(422).send(err);
+   });
+   }
+   }
+   else {
+   if (type && key2) {
+   dj_PartyMember.findAll({
+   where: {
+   workbranch: type,
+   PartyName: {
+   $like: '%' + key2 + '%'
+   }
+   },
+   include: [
+   {
+   model: dj_PartyBranch,
+   attributes: ['simpleName']
+   }
+   ]
+   }).then(function (data) {
+   res.jsonp(data);
+   }).catch(function (err) {
+   console.log('出错了。。。。。');
+   });
+   } else {
+   dj_PartyMember.findAll({
+   include: [
+   {
+   model: dj_PartyBranch,
+   attributes: ['simpleName']
+   }
+   ],
+   order: 'createDate DESC'
+   }).then(function (dj_PartyMember) {
+   return res.jsonp(dj_PartyMember);
+   }).catch(function (err) {
+   logger.error('dj_PartyMember list error:', err);
+   return res.status(422).send(err);
+   });
+   }
+   }*/
+
 };
 
 /**
@@ -173,35 +273,34 @@ exports.list = function (req, res) {
  */
 exports.dj_PartyMemberByID = function (req, res, next, id) {
   var dj_PartyMember = sequelize.model('dj_PartyMember');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
-  var offset = parseInt(req.query.offset, 0);//20 每页总数
-  // var type = req.query.type;//所属党支部ID
-  var type = req.query.workbranch;
-  console.log(req.query);
-  if (offset !== 0 && id === '0') {
-    listByPage(req, res, limit, offset, type);
-  } else if (limit === 0 && offset === 0 && id === '0') {
-    listCount(req, res, type);
-  } else if (id !== '0') {
-    dj_PartyMember.findOne({
-      where: {PartyId: id}
-    }).then(function (dj_PartyMember) {
-      if (!dj_PartyMember) {
-        logger.error('No dj_PartyMember with that identifier has been found');
-        return res.status(404).send({
-          message: 'No dj_PartyMember with that identifier has been found'
-        });
-      }
-      req.model = dj_PartyMember;
-      next();
-    }).catch(function (err) {
-      //return next(err);
-      logger.error('dj_PartyMember ByID error:', err);
-      res.status(422).send({
-        message: errorHandler.getErrorMessage(err)
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+   var offset = parseInt(req.query.offset, 0);//20 每页总数
+   // var type = req.query.type;//所属党支部ID
+   var type = req.query.workbranch;
+   if (offset !== 0 && id === '0') {
+   listByPage(req, res, limit, offset, type);
+   } else if (limit === 0 && offset === 0 && id === '0') {
+   listCount(req, res, type);
+   } else if (id !== '0') {*/
+  dj_PartyMember.findOne({
+    where: {PartyId: id}
+  }).then(function (dj_PartyMember) {
+    if (!dj_PartyMember) {
+      logger.error('No dj_PartyMember with that identifier has been found');
+      return res.status(404).send({
+        message: 'No dj_PartyMember with that identifier has been found'
       });
+    }
+    req.model = dj_PartyMember;
+    next();
+  }).catch(function (err) {
+    //return next(err);
+    logger.error('dj_PartyMember ByID error:', err);
+    res.status(422).send({
+      message: errorHandler.getErrorMessage(err)
     });
-  }
+  });
+  // }
 };
 //----分页
 function listByPage(req, res, limit, offset, type) {

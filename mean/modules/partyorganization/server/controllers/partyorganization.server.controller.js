@@ -99,15 +99,27 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var dj_PartyBranch = sequelize.model('dj_PartyBranch');
-
-  dj_PartyBranch.findAll({
-    order: 'createDate DESC'
-  }).then(function (dj_PartyBranch) {
-    return res.jsonp(dj_PartyBranch);
-  }).catch(function (err) {
-    logger.error('dj_PartyBranch list error:', err);
-    return res.status(422).send(err);
-  });
+  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  var offset = parseInt(req.query.offset, 0);//20 每页总数
+  var type = req.query.type;//所属部门党委或街道党工委ID
+  var OrganizationId = req.query.OrganizationId;
+  var generalbranch = req.query.generalbranch;
+  var cont = req.query.cont;
+  var sum = req.query.sum;
+  if (sum) {
+    listByPage(req, res, limit, offset, type, OrganizationId, generalbranch);
+  } else if (cont) {
+    listCount(req, res, type, OrganizationId, generalbranch);
+  }else {
+    dj_PartyBranch.findAll({
+      order: 'createDate DESC'
+    }).then(function (dj_PartyBranch) {
+      return res.jsonp(dj_PartyBranch);
+    }).catch(function (err) {
+      logger.error('dj_PartyBranch list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 /**
@@ -115,7 +127,7 @@ exports.list = function (req, res) {
  */
 exports.dj_PartyBranchByID = function (req, res, next, id) {
   var dj_PartyBranch = sequelize.model('dj_PartyBranch');
-  var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
+  /*var limit = parseInt(req.query.limit, 0);//(pageNum-1)*20
   var offset = parseInt(req.query.offset, 0);//20 每页总数
   var type = req.query.type;//所属部门党委或街道党工委ID
   var OrganizationId = req.query.OrganizationId;
@@ -124,7 +136,7 @@ exports.dj_PartyBranchByID = function (req, res, next, id) {
     listByPage(req, res, limit, offset, type, OrganizationId, generalbranch);
   } else if (limit === 0 && offset === 0 && id === '0') {
     listCount(req, res, type, OrganizationId, generalbranch);
-  } else if (id !== '0') {
+  } else if (id !== '0') {*/
     dj_PartyBranch.findOne({
       where: {OrganizationId: id}
     }).then(function (dj_PartyBranch) {
@@ -144,7 +156,7 @@ exports.dj_PartyBranchByID = function (req, res, next, id) {
         message: errorHandler.getErrorMessage(err)
       });
     });
-  }
+//  }
 };
 //----分页
 function listByPage(req, res, limit, offset, type, OrganizationId, generalbranch) {
