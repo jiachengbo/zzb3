@@ -13,9 +13,6 @@
     var vm = this;
     vm.authentication = appService;
     vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
-    if (!appService.user) {
-      $state.go('authentication.signin');
-    }
     vm.signup = signup;
     vm.signin = signin;
     vm.callOauthProvider = callOauthProvider;

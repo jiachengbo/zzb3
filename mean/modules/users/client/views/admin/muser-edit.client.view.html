@@ -37,7 +37,7 @@
             </div>
             <div class="form-group " show-errors>
               <label class="control-label" for="firstName">部门名称</label>
-              <input name="firstName" type="text" ng-model="vm.muser_row.firstName" id="firstName" class="form-control" placeholder="部门名称" required />
+              <input name="firstName" type="text" ng-model="vm.muser_row.firstName" id="firstName" class="form-control" placeholder="部门名称" required ng-disabled="true" />
               <div ng-messages="vm.muserForm.firstName.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">部门名称必须要输入.</p>
               </div>
@@ -49,9 +49,9 @@
                 <p class="help-block error-text" ng-message="required">用户名称必须要输入.</p>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="false">
               <label class="control-label" for="roles">特殊权限</label>
-              <textarea name="roles" data-ng-model="vm.muser_row.roles" id="roles" class="form-control" cols="30" rows="2" placeholder="roles"></textarea>
+              <textarea name="roles" data-ng-model="vm.muser_row.roles" id="roles" class="form-control" cols="30" rows="2" placeholder="roles" ng-disabled="true"></textarea>
             </div>
             <div class="form-group" show-errors ng-if="!vm.disabled">
               <label class="control-label" for="roles">用户角色</label>
@@ -103,7 +103,7 @@
             <div class="form-group" show-errors ng-if="!vm.disabled">
               <label class="control-label" for="roles">所属支部</label>
               <select name="partybranch" type="text" ng-model="vm.muser_row.branch"ng-change="vm.changedpartybranch(vm.muser_row.branch)" id="partybranch" class="form-control" placeholder="选择所属支部" required>
-                <option value="{{partybranch}}" data-ng-repeat="partybranch in vm.partybranch">{{partybranch.simpleName}}</option>
+                <option value="{{partybranch}}" ng-repeat="partybranch in vm.partybranch track by $index">{{partybranch.simpleName}}</option>
               </select>
               <div ng-messages="vm.muserForm.partybranch.$error" role="alert">
                 <p class="help-block error-text" ng-message="required">选择所属支部</p>

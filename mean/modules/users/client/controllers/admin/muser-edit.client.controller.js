@@ -28,7 +28,6 @@
     ];
     vm.isupdate = $window.parseInt($stateParams.isupdate);
     vm.muser_row = $stateParams.muser_row;
-    console.log(vm.isupdate);
     //部门、岗位表所有数据
     vm.department_rows = $stateParams.department_rows;
     vm.workposition_rows = $stateParams.workposition_rows;
@@ -46,12 +45,22 @@
         vm.workposition_data = $stateParams.value.value;
       }
     }
+    //设置用户的部门名称
     // var objs = {id: 6, name: "qnlparty", displayName: "青年路街道党工委", descText: "青年路街道党工委", parentId: 5};
     //进行的操作
     vm.muser_rowop = $stateParams.muser_rowop;
     //不能修改
     vm.disabled = vm.muser_rowop.disabled;
 
+
+    console.info(vm.workpositionname, vm.isupdate, vm.disabled);
+    if (vm.workpositionname) {
+      if (vm.isupdate === 0 && !vm.disabled) {
+        var bumenname = vm.workpositionname.descText;
+        vm.muser_row.firstName = bumenname;
+        vm.muser_row.roles = 'user,admin';
+      }
+    }
     //设置cvm，用于回传本控制
     vm.muser_rowop.cvm = vm;
 
@@ -73,12 +82,12 @@
     };
 
     //列表显示的内容
-    vm.treeTitle = function(node) {
+    vm.treeTitle = function (node) {
       return node.value.displayName ? node.value.displayName : node.value.name;
     };
 
     //显示选择行
-    vm.showSelected = function(sel) {
+    vm.showSelected = function (sel) {
       if (sel) {
         //展开父
         if (vm.expanded.indexOf(sel.parent) === -1) {
@@ -92,7 +101,7 @@
       }
     };
 
-    vm.changed = function(node) {
+    vm.changed = function (node) {
       var workposition = {id: node.value.id};
       //删除当前数据保存的指定workposition.id的记录
       for (var index = 0; index < vm.muser_row.wps.length; index++) {
@@ -108,7 +117,7 @@
     };
 
     var workpositions = vm.workposition_rows.map(function (ele) {
-      ele.selected = vm.muser_row.wps.some(function(workposition) {
+      ele.selected = vm.muser_row.wps.some(function (workposition) {
         return ele.id === workposition.id;
       });
       return ele;

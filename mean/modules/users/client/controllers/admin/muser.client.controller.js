@@ -160,7 +160,8 @@
       }
 
       vm.currMUser = newvalue;
-      vm.update();
+      vm.disabled = false;
+      vm._showEdit(0);
     };
 
     // 删除
@@ -255,7 +256,6 @@
     } else if (appService.user.user_grade === 5) {
       angular.forEach(vm.serviceTree.nodes[0].children[0].children, function (v, k) {
         if (v.value.descText) {
-          console.log(v.value.descText, appService.user.firstName);
           if (v.value.descText.match(appService.user.firstName)) {
             arrname = angular.copy(vm.serviceTree.nodes[0].children[0].children[k]);
             vm.serviceTree.nodes[0].children[0].children = [];
