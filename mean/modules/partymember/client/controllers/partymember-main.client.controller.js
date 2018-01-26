@@ -14,7 +14,8 @@
     var storage = $window.localStorage.getItem('Orgtj');
     var dj_PartyBranch = baseCodeService.getItems('dj_PartyBranch');
     vmo.orgid = 1;
-    vmo.dj_PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');
+    var partyorg = baseCodeService.getItems('dj_PartyOrganization');
+    vmo.dj_PartyOrganization = [];
     vmo.searchPartyMeber = function (key) {
       PartymemberService.query({key2: key, workbranch: vmo.orgid}).$promise.then(function (data) {
         vmo.gridOptions.totalItems = data.length;
@@ -39,6 +40,12 @@
         vmo.superss = v.super;
       }
     });
+    partyorg.forEach(function (v, k) {
+      if (v.typeID === vmo.superss) {
+        vmo.dj_PartyOrganization.push(v);
+      }
+    });
+    vmo.orgid = vmo.superss;
     vmo.userid = appService.user.id;
     var branchInfo = [
       {'branchid': vmo.branch, 'branchname': vmo.zbName}

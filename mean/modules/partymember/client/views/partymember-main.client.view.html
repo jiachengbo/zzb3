@@ -5,7 +5,7 @@
         <select name="" id="" ng-model="vmo.orgid" ng-options="v.typeID as v.typeName  for v in vmo.dj_PartyOrganization" style="float: left;width: auto;" class="form-control">
         </select>
       </div>
-      <input type="text" class="form-control" placeholder="Search for..." ng-model="vmo.key" style="float: left;width: auto;">
+      <input type="text" class="form-control" placeholder="通过姓名查找..." ng-model="vmo.key" style="float: left;width: auto;">
       <span class="input-group-btn" style="float: left;width: auto;">
                  <button type="button" class="btn btn-default" ng-click="vmo.searchPartyMeber(vmo.key)">
   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 搜索
