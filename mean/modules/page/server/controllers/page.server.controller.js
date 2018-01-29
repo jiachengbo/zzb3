@@ -1010,22 +1010,21 @@ exports.PartyMemberAnalyze = function (req, res) {
       where a.branch = b.OrganizationId and b.super = ${objId} group by b.OrganizationName`;
     } else if (type === 'sex') {
       sql = `select count(*) as co,a.PartySex
-  from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b 
-  where a.branch = b.OrganizationId and b.super = ${objId} group by a.PartySex`;
+  from dbo.dj_PartyMember as a where a.workbranch = ${objId} group by a.PartySex`;
     } else if (type === 'age') {
-      sql = `select sum(case when PartyBirth > '${ageArr[0]}' then 1 else 0 end ) '30岁以下',
-  sum(case when PartyBirth < '${ageArr[0]}' and PartyBirth > '${ageArr[1]}' then 1 else 0 end ) '30-40岁',
-  sum(case when PartyBirth < '${ageArr[1]}' and PartyBirth > '${ageArr[2]}' then 1 else 0 end ) '40-50岁',
-  sum(case when PartyBirth < '${ageArr[2]}' and PartyBirth > '${ageArr[3]}' then 1 else 0 end ) '50-60岁',
+      sql = `select sum(case when PartyBirth >= '${ageArr[0]}' then 1 else 0 end ) '30岁以下',
+  sum(case when PartyBirth < '${ageArr[0]}' and PartyBirth >= '${ageArr[1]}' then 1 else 0 end ) '30-40岁',
+  sum(case when PartyBirth < '${ageArr[1]}' and PartyBirth >= '${ageArr[2]}' then 1 else 0 end ) '40-50岁',
+  sum(case when PartyBirth < '${ageArr[2]}' and PartyBirth >= '${ageArr[3]}' then 1 else 0 end ) '50-60岁',
   sum(case when PartyBirth < '${ageArr[3]}' then 1 else 0 end ) '60岁以上'
-  from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId}`;
+  from dbo.dj_PartyMember as a where a.workbranch = ${objId}`;
     } else if (type === 'jointime') {
-      sql = `select sum(case when JoinTime > '2010' then 1 else 0 end ) '2010年以后入党',
-  sum(case when JoinTime < '2010' and JoinTime > '2000' then 1 else 0 end ) '2000年-2010年入党',
-  sum(case when JoinTime < '2000' and JoinTime > '1980' then 1 else 0 end ) '1980年-2000年入党',
-  sum(case when JoinTime < '1980' and JoinTime > '19491001' then 1 else 0 end ) '1949年10月1日-1980年入党',
+      sql = `select sum(case when JoinTime >= '2010' then 1 else 0 end ) '2010年以后入党',
+  sum(case when JoinTime < '2010' and JoinTime >= '2000' then 1 else 0 end ) '2000年-2010年入党',
+  sum(case when JoinTime < '2000' and JoinTime >= '1980' then 1 else 0 end ) '1980年-2000年入党',
+  sum(case when JoinTime < '1980' and JoinTime >= '19491001' then 1 else 0 end ) '1949年10月1日-1980年入党',
   sum(case when JoinTime < '19491001' then 1 else 0 end ) '1949年10月1日前入党'
-   from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId}`;
+   from dbo.dj_PartyMember as a where a.workbranch = ${objId}`;
     } else if (type === 'orgnum') {
       sql = `select count(*) as co 
   from dbo.dj_PartyBranch
@@ -1041,20 +1040,17 @@ exports.PartyMemberAnalyze = function (req, res) {
     } else if (type === 'orgclass') {
       sql = `select count(*) as co,OrganizationCategory from dj_PartyBranch  where  super = ${objId} group by OrganizationCategory`;
     } else if (type === 'nation') {
-      sql = `select count(*) as co,a.PartyNation from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId} group by a.PartyNation`;
+      sql = `select count(*) as co,a.PartyNation from dbo.dj_PartyMember as a where a.workbranch = ${objId} and a.PartyNation like '%族%' group by a.PartyNation`;
     } else if (type === 'PartyPlace') {
-      sql = `select count(*) as co,a.PartyPlace from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId} group by a.PartyPlace`;
+      sql = `select count(*) as co,a.PartyPlace from dbo.dj_PartyMember as a where a.workbranch = ${objId} and a.PartyPlace is not null group by a.PartyPlace`;
     } else if (type === 'Category') {
-      sql = `select count(*) as co,a.Category from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId} group by a.Category`;
+      sql = `select count(*) as co,a.Category from dbo.dj_PartyMember as a where a.workbranch = ${objId} and a.Category is not null and a.Category <> '' group by a.Category`;
     } else if (type === 'education') {
-      sql = `select count(*) as co,a.education2 from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId} group by a.education2`;
+      sql = `select count(*) as co,a.education2 from dbo.dj_PartyMember as a where a.workbranch = ${objId} and a.education2 is not null and a.education2 <> '' group by a.education2`;
     } else if (type === 'personcategory') {
-      sql = `select count(*) as co,a.preson_category from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b where a.branch = b.OrganizationId and b.super = ${objId} group by a.preson_category`;
+      sql = `select count(*) as co,a.preson_category from dbo.dj_PartyMember as a where a.workbranch = ${objId} and  a.preson_category is not null and a.preson_category <> '' group by a.preson_category`;
     } else if (type === 'comm') {
-      sql = `select count(*) as co ,d.communityName 
-from dbo.dj_PartyMember as a,dbo.dj_PartyBranch as b ,dbo.street_info as c,dbo.community as d 
-where a.branch = b.OrganizationId and b.super = ${objId} and a.communityId = d.communityId and a.streetID = d.streetID
-group by d.communityName`;
+      sql = `select count(*) as co ,d.communityName from dbo.dj_PartyMember as a,dbo.community as d where a.workbranch = ${objId} and a.communityId = d.communityId and a.streetID = d.streetID group by a.communityId,a.streetID,d.communityName`
     } else if (type === 'commorg') {
       sql = `select count(*)as co,d.communityName from dbo.dj_PartyBranch as b ,dbo.community as d
 where  b.super = ${objId} and b.communityId = d.communityId group by d.communityName`;

@@ -6,9 +6,9 @@
     .controller('MUserController', MUserController);
 
   MUserController.$inject = ['$scope', '$log', '$window', 'Notification', '$state', '$timeout', 'treeService',
-    'AdminService', 'departmentResolve', 'workpositionResolve', 'muserResolve', 'appService', 'baseCodeService'];
+    'AdminService', 'departmentResolve', 'workpositionResolve', 'muserResolve', 'appService', 'baseCodeService', '$rootScope'];
   function MUserController($scope, $log, $window, Notification, $state, $timeout, treeService,
-                           AdminService, departmentResolve, workpositionResolve, muserResolve, appService, baseCodeService) {
+                           AdminService, departmentResolve, workpositionResolve, muserResolve, appService, baseCodeService, $rootScope) {
     var vm = this;
     vm.treeOptions = {
       dirSelectable: true,
@@ -196,14 +196,17 @@
       }
 
       if (vm.currMUser.id) {
+        $rootScope._openModal();
         vm.currMUser.$update()
           .then(function(res) {
             //更新变量值
+            $rootScope.cancel();
             vm.selected.value = res;
             vm.showSelected(vm.selected);
             Notification.success({message: '<i class="glyphicon glyphicon-ok"></i>用户修改成功!'});
           })
           .catch(function(err) {
+            $rootScope.cancel();
             $log.error('muser update save error:', err.data.message);
             Notification.error({
               message: err.data.message,
@@ -211,12 +214,15 @@
             });
           });
       } else {
+        $rootScope._openModal();
         vm.currMUser.$save()
           .then(function(res) {
+            $rootScope.cancel();
             vm.showSelected(vm.serviceTree.addValue2Node(res, vm.currDepartmentNode));
             Notification.success({message: '<i class="glyphicon glyphicon-ok"></i> 用户添加成功!'});
           })
           .catch(function(err) {
+            $rootScope.cancel();
             $log.error('muser add save error:', err.data.message);
             Notification.error({
               message: err.data.message,

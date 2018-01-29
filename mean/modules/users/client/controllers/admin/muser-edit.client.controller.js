@@ -51,9 +51,6 @@
     vm.muser_rowop = $stateParams.muser_rowop;
     //不能修改
     vm.disabled = vm.muser_rowop.disabled;
-
-
-    console.info(vm.workpositionname, vm.isupdate, vm.disabled);
     if (vm.workpositionname) {
       if (vm.isupdate === 0 && !vm.disabled) {
         var bumenname = vm.workpositionname.descText;
@@ -61,6 +58,13 @@
         vm.muser_row.roles = 'user,admin';
       }
     }
+    vm.changedjobrole = function (role) {
+      if(role === 1){
+        vm.muser_row.roles = 'user,admin';
+      }else {
+        vm.muser_row.roles = 'user';
+      }
+    };
     //设置cvm，用于回传本控制
     vm.muser_rowop.cvm = vm;
 

@@ -180,6 +180,18 @@
     } else {
       $scope.$on('userLogin', fette);
     }
+
+    //数据加载等待页面
+    $rootScope._openModal = function (resarg) {
+      return $uibModal.open({
+        templateUrl: '/modules/global/client/views/openmodule-modal-form.client.view.html',
+        controller: 'openmoduleController',
+        controllerAs: 'vm',
+        backdrop: 'static',
+        resolve: resarg,
+        size: 'lg'
+      });
+    };
     //待处理任务
     vm.userWaitHandles = [];
     // 消息
