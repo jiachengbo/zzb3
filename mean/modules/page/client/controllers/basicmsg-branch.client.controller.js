@@ -124,10 +124,12 @@
       }
     });
     // 第一书记
-    MajorsecretaryService.query({gradeId: vm.queryGradeId, objId: vm.queryObjId}).$promise.then(function (data) {
-      console.log(data);
-      vm.MajorsecretaryData = data[0];
-    });
+    if (UserMsg.belongComm) {
+      MajorsecretaryService.query({gradeId: vm.queryGradeId, objId: vm.queryObjId}).$promise.then(function (data) {
+        console.log(data);
+        vm.MajorsecretaryData = data[0];
+      });
+    }
     // 党建动态
     // vm.gradeId = appService.user.user_grade;
     // vm.roleId = appService.user.JCDJ_User_roleID;

@@ -103,6 +103,7 @@
         angular.forEach(vm.dj_PartyBranch, function (v, k) {
           if (v.OrganizationId === appService.user.branch) {
             vm.shangji = v.super;
+            vm.belongComm = v.belongComm;
           }
         });
       } else {
@@ -112,6 +113,7 @@
       obj.objId = vm.objId;
       obj.shangji = vm.shangji;
       obj.objName = vm.objName;
+      obj.belongComm = vm.belongComm;
     };
     return obj;
   }

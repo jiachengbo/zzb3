@@ -116,9 +116,11 @@
       }
     });
     // 第一书记
-    MajorsecretaryService.query({gradeId: vm.queryGradeId, objId: vm.queryObjId}).$promise.then(function (data) {
-      vm.MajorsecretaryData = data[0];
-    });
+    if (UserMsg.belongComm) {
+      MajorsecretaryService.query({gradeId: vm.queryGradeId, objId: vm.queryObjId}).$promise.then(function (data) {
+        vm.MajorsecretaryData = data[0];
+      });
+    }
     // 党员台账
     GetPartyMemberService.query({branch: vm.partybranch}).$promise.then(function (data) {
       vm.partymemberdata = data;

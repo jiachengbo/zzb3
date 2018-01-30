@@ -1050,7 +1050,7 @@ exports.PartyMemberAnalyze = function (req, res) {
     } else if (type === 'personcategory') {
       sql = `select count(*) as co,a.preson_category from dbo.dj_PartyMember as a where a.workbranch = ${objId} and  a.preson_category is not null and a.preson_category <> '' group by a.preson_category`;
     } else if (type === 'comm') {
-      sql = `select count(*) as co ,d.communityName from dbo.dj_PartyMember as a,dbo.community as d where a.workbranch = ${objId} and a.communityId = d.communityId and a.streetID = d.streetID group by a.communityId,a.streetID,d.communityName`
+      sql = `select count(*) as co ,d.communityName from dbo.dj_PartyMember as a,dbo.community as d where a.workbranch = ${objId} and a.communityId = d.communityId and a.streetID = d.streetID group by a.communityId,a.streetID,d.communityName`;
     } else if (type === 'commorg') {
       sql = `select count(*)as co,d.communityName from dbo.dj_PartyBranch as b ,dbo.community as d
 where  b.super = ${objId} and b.communityId = d.communityId group by d.communityName`;

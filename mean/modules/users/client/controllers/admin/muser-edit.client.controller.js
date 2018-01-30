@@ -59,9 +59,9 @@
       }
     }
     vm.changedjobrole = function (role) {
-      if(role === 1){
+      if (role === 1) {
         vm.muser_row.roles = 'user,admin';
-      }else {
+      } else {
         vm.muser_row.roles = 'user';
       }
     };
@@ -153,7 +153,9 @@
           descText = $stateParams.value.value.firstName;
         }
         var namedagn = descText.slice(-3);
-        vm.zhisname = descText.slice(-2);
+        if(!descText.match('党支部')){
+          vm.zhisname = descText.slice(-2);
+        }
         var zhibuparent;
         if (namedagn === '党支部' || namedagn === '总支部' || vm.zhisname === '支部') {
           if (parentIds !== 0 && parentIds !== 1) {
@@ -299,6 +301,7 @@
             }, vm.partybranch);
           }
           if ($stateParams.value.parent) {
+            console.log('a',);
             if ($stateParams.value.parent.value.parentId === 5 || $stateParams.value.parent.value.parentId === 44) {
               angular.forEach(vm.dj_PartyBranch, function (value, key) {
                 if (value.super === num) {
@@ -314,6 +317,7 @@
                   } else {
                     nums = 3;
                   }
+                  console.log(nums);
                   if (value.simpleName.match(vm.select_workpostion.descText.slice(0, -nums))) {
                     if (supersss) {
                       if (supersss === value.super) {
