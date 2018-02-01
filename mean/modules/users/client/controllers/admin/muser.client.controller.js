@@ -315,7 +315,6 @@
               angular.forEach(v1, function (v2, k2) {
                 if (v2.value) {
                   if (v2.value.hasOwnProperty('descText')) {
-                    console.log(v2, vm.garename);
                     if (v2.value.descText.match(names)) {
                       if (appService.user.user_grade > 7) {
                         v1 = [];
@@ -323,6 +322,7 @@
                         vm.treeData = v1;
                       } else {
                         angular.forEach(v2.children, function (v3, k3) {
+                          console.log(v3);
                           // if (vm.gemerbramch) {
                           //   console.log(v3);
                           //   if (v3.value.branch === appService.user.branch && v3.value.user_grade === appService.user.user_grade) {
@@ -331,6 +331,7 @@
                           //   }
                           // } else {
                           if (v3.value.hasOwnProperty('descText')) {
+                            console.log(v3);
                             if (vm.zhibuname.match(v3.value.descText.slice(0, -3))) {
                               v2.children = [];
                               v2.children.push(v3);

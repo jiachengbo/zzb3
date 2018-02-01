@@ -21,7 +21,7 @@ function wordhtml(a, b, c) {
   fs.exists(diskFileName, function (exists) {
     if (!exists) {
       logger.warn('conv docfile %s not exists', diskFileName);
-      // return res.status(404).send('参数文件不存在:' + diskFileName);
+     // return res.status(404).send('参数文件不存在:' + diskFileName);
     }
     var type = distType + (typeParam[distType] || '');
     var cmdLine = util.format('"%s" --headless --convert-to "%s"  --outdir "%s" "%s"',
@@ -30,21 +30,20 @@ function wordhtml(a, b, c) {
     child_process.exec(cmdLine, function (error, stdout, stderr) {
       if (error) {
         logger.warn('conv docfile %s to pdf error:', diskFileName, error.message);
-        // return res.status(404).send('文件转换错误:' + diskFileName);
+        //return res.status(404).send('文件转换错误:' + diskFileName);
       }
-
       var distFile = path.basename(a, path.extname(a)) + '.' + distType;
       var distFileName = path.join(b.diskDir, distFile);
       fs.exists(distFileName, function (exists) {
         if (!exists) {
           console.log('转换后的文件不存在:' + distFileName);
-          // return res.status(404).send('转换后的文件不存在:' + distFileName);
+         // return res.status(404).send('转换后的文件不存在:' + distFileName);
         } else {
           console.log('转换完成');
           deleteOldImage(b.mountDir, b.diskDir, c);
           arr.shift();
           if (arr.length > 0) {
-            wordhtml(arr[0].filename, arr[0].uploadImage);
+            wordhtml(arr[0].filename, arr[0].uploadImage, arr[0]);
           }
         }
       });
