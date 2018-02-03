@@ -163,9 +163,14 @@ exports.list = function (req, res) {
       where = {
         where: {
           workbranch: type,
-          PartyName: {
-            $like: '%' + key2 + '%'
-          }
+          $or: [
+            {PartyName: {
+              $like: '%' + key2 + '%'
+            }},
+            {IDNumber: {
+              $like: '%' + key2 + '%'
+            }}
+          ]
         },
         include: [
           {

@@ -33,6 +33,7 @@
     // 项目来源下拉框
     if (appService.user) {
       grade = appService.user.user_grade;
+      console.log(grade);
       if (grade === 1) {
         projectSources = [
           {'projectSourcename': '问卷调查'},
@@ -46,6 +47,14 @@
           {'projectSourcename': '问卷调查'},
           {'projectSourcename': '兼职委员提议'},
           {'projectSourcename': '党工委研究'},
+          {'projectSourcename': '驻地单位提议'},
+          {'projectSourcename': '其他'}
+        ];
+      } else if (grade === 4) {
+        projectSources = [
+          {'projectSourcename': '问卷调查'},
+          {'projectSourcename': '兼职委员提议'},
+          {'projectSourcename': '党委研究'},
           {'projectSourcename': '驻地单位提议'},
           {'projectSourcename': '其他'}
         ];

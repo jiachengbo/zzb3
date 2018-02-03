@@ -53,7 +53,7 @@
               <label class="control-label" for="roles">特殊权限</label>
               <textarea name="roles" data-ng-model="vm.muser_row.roles" id="roles" class="form-control" cols="30" rows="2" placeholder="roles" ng-disabled="true"></textarea>
             </div>
-            <div class="form-group" show-errors ng-if="!vm.disabled && vm.isupdate === 0">
+            <div class="form-group" show-errors ng-if="!vm.disabled">
               <label class="control-label" for="roles">用户角色</label>
               <select name="JCDJ_User_roleID" type="text" ng-model="vm.muser_row.JCDJ_User_roleID"ng-change="vm.changedrole(vm.muser_row.JCDJ_User_roleID)" id="JCDJ_User_roleID" class="form-control" placeholder="选择用户角色" required>
                 <option value="{{partyList}}" data-ng-repeat="partyList in vm.partyList11">{{partyList.descriptor}}</option>
@@ -62,7 +62,7 @@
                 <p class="help-block error-text" ng-message="required">请选择用户角色</p>
               </div>
             </div>
-            <div class="form-group" show-errors ng-if="vm.disabled || vm.isupdate === 1">
+            <div class="form-group" show-errors ng-if="vm.disabled">
               <label class="control-label" for="roles">用户角色</label>
               <select name="JCDJ_User_roleID" type="text" ng-model="vm.muser_row.JCDJ_User_roleID"ng-change="vm.changedrole(vm.muser_row.JCDJ_User_roleID)" id="JCDJ_User_roleID1" class="form-control" placeholder="选择用户角色" ng-options="partyList.UserRoleID as partyList.descriptor for partyList in vm.partyList11">
               </select>
@@ -100,7 +100,7 @@
                 <p class="help-block error-text" ng-message="required">选择总支部</p>
               </div>
             </div>
-            <div class="form-group" show-errors ng-if="!vm.disabled && vm.isupdate === 0">
+            <div class="form-group" show-errors ng-if="!vm.disabled">
               <label class="control-label" for="roles">所属支部</label>
               <select name="partybranch" type="text" ng-model="vm.muser_row.branch"ng-change="vm.changedpartybranch(vm.muser_row.branch)" id="partybranch" class="form-control" placeholder="选择所属支部" required>
                 <option value="{{partybranch}}" ng-repeat="partybranch in vm.partybranch track by $index">{{partybranch.simpleName}}</option>
@@ -109,7 +109,7 @@
                 <p class="help-block error-text" ng-message="required">选择所属支部</p>
               </div>
             </div>
-            <div class="form-group" show-errors ng-if="vm.disabled || vm.isupdate === 1">
+            <div class="form-group" show-errors ng-if="vm.disabled">
               <label class="control-label" for="roles">所属支部</label>
               <select name="partybranch" type="text" ng-model="vm.muser_row.branch"ng-change="vm.changedpartybranch(vm.muser_row.branch)" id="partybranch1" class="form-control" placeholder="选择所属支部" ng-options="partybranch.OrganizationId as partybranch.simpleName for partybranch in vm.dj_PartyBranch">
               </select>

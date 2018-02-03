@@ -22,8 +22,6 @@
       superior: 2
     };
     vm.dj_PartyGeneralBranch.unshift(obj);
-    vm.PartyorganizationData.generalbranch = null;
-
     if (appService.user.user_grade === 9 || appService.user.user_grade === 10) {
       angular.forEach(dj_PartyBranch, function (v, k) {
         if (v.OrganizationId === appService.user.branch) {
@@ -129,6 +127,7 @@
     ];
     $scope.unitorgsituInfo = unitorgsitus;
     if (method === '新增') {
+      vm.PartyorganizationData.generalbranch = null;
       vm.PartyorganizationData.OrganizationCategory = organizationCategorys[0].name;
       vm.PartyorganizationData.Relations = relations[0].name;
       vm.PartyorganizationData.streetID = '-1';
