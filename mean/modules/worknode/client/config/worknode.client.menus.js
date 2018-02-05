@@ -64,7 +64,7 @@
       title: '网格员工作日志',
       state: 'worknode.curd',
       roles: ['worknode'],
-      position: 0
+      position: -2
     });
   }
 }());

@@ -12,7 +12,7 @@
       title: '党建动态',
       state: 'appeal.djappeal',
       roles: ['partydt'],
-      position: 0
+      position: 2
     });
 
     /*

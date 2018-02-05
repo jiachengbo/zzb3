@@ -13,7 +13,7 @@
       state: 'regionalization.project',
       type: '',
       roles: ['project'],
-      position: 0
+      position: -9
     });
    /*
     menuService.addMenuItem('sidemenu', {

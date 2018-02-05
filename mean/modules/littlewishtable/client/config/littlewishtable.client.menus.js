@@ -13,7 +13,7 @@
       state: 'littleWishTable',
       type: 'dropdown',
       roles: ['litterwish'],
-      position: 0
+      position: -7
     });
 
     // Add the dropdown list item

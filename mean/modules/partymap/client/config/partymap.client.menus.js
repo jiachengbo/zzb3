@@ -12,7 +12,7 @@
       title: '党建地图',
       state: 'partymap',
       roles: ['partymap'],
-      position: 1000
+      position: -5
     });
     /*
    menuService.addMenuItem('sidemenu', {

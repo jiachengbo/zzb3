@@ -12,7 +12,7 @@
       title: '共驻共建',
       state: 'buildbuild.curd',
       roles: ['build'],
-      position: -1
+      position: -8
     });
 /*
 

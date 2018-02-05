@@ -46,7 +46,7 @@
       state: 'problemWall.curd',
       /*type: '',*/
       roles: ['prowall'],
-      position: 0
+      position: -6
     });
      /*menuService.addMenuItem('sidemenu', {
      title: '问题墙',

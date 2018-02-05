@@ -67,7 +67,7 @@
       state: 'jobduties.curd',
       /* type: 'dropdown',*/
       roles: ['jobduty'],
-      position: 0
+      position: -3
     });
 
   }

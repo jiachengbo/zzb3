@@ -341,7 +341,7 @@
       state: 'orgset',
       type: 'dropdown',
       roles: ['orgset'],
-      position: -1
+      position: -10
     });
     menuService.addSubMenuItem('sidemenu', 'orgset', {
       title: '区委党建领导小组',
@@ -419,63 +419,63 @@
       state: 'orgset.hx',
      /* type: 'dropdown',*/
       roles: ['orgsethx'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.ty',
       /* type: 'dropdown',*/
       roles: ['orgsetty'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.qnl',
       /* type: 'dropdown',*/
       roles: ['orgsetqnl'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.bym',
       /* type: 'dropdown',*/
       roles: ['orgsetbym'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.bg',
       /* type: 'dropdown',*/
       roles: ['orgsetbg'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.xg',
       /* type: 'dropdown',*/
       roles: ['orgsetxg'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.tm',
       /* type: 'dropdown',*/
       roles: ['orgsettm'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.zy',
       /* type: 'dropdown',*/
       roles: ['orgsetzy'],
-      position: -1
+      position: -10
     });
     menuService.addMenuItem('sidemenu', {
       title: '组织设置',
       state: 'orgset.hmp',
       /* type: 'dropdown',*/
       roles: ['orgsethmp'],
-      position: -1
+      position: -10
     });
   }
 }());

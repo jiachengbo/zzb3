@@ -16,12 +16,14 @@
     });
     menuService.addSubMenuItem('sidemenu', 'admin', {
       icon: '/modules/users/client/img/icon/权限管理.png',
+      roles: ['aaa'],
       state: 'admin.role',
       position: 101
     });
     menuService.addSubMenuItem('sidemenu', 'admin', {
       icon: '/modules/users/client/img/icon/工作岗位.png',
       state: 'admin.workposition',
+      roles: ['aaa'],
       position: 102
     });
     menuService.addSubMenuItem('sidemenu', 'admin', {

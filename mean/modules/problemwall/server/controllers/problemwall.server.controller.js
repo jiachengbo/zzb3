@@ -251,10 +251,7 @@ function listByPage(req, res, limit, offset, gradeId, roleId, branchId, _super) 
       generalBranch: _super
     };
   } else if (gradeId === 1) {
-    opt = {
-      gradeId: 1,
-      roleId: 25
-    };
+    opt = {};
   } else if (gradeId === 5) {
     opt = {
       gradeId: 5,
@@ -303,10 +300,7 @@ function listCount(req, res, gradeId, roleId, branchId, _super) {
     };
   } else {
     if (gradeId === 1) {
-      where = {
-        gradeId: gradeId,
-        roleId: roleId
-      };
+      where = {};
     } else {
       // 党工委 5
       where = {

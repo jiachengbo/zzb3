@@ -371,7 +371,7 @@
           }
           appService.basicMsg = false;
           menuService.leftMenusCollapsed = false;
-          appService.user.roles = ['xtsz'];
+          appService.user.roles = ['xtsz', 'user'];
           $state.go('home');
           $rootScope.showmuse1 = true;
           break;
