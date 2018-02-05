@@ -14,7 +14,7 @@
       state: 'partyorganization',
       type: 'dropdown',
       roles: ['partyzuzhi'],
-      position: 0
+      position: 15
     });
     menuService.addSubMenuItem('sidemenu', 'partyorganization', {
       title: '党委',
@@ -31,7 +31,7 @@
       title: '党组织信息管理',
       state: 'partyorganization.curd.main',
       roles: ['partyzuzhidwordgw'],
-      position: 0
+      position: 15
     });
     /*//菜单
     menuService.addMenuItem('sidemenu', {

@@ -37,7 +37,7 @@
       state: 'teammembers.curd',
       // type: 'dropdown',
       roles: ['banzi'],
-      position: 0
+      position: 11
     });
 
   }

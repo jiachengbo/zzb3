@@ -45,7 +45,7 @@
       state: 'majorsecretary.curd',
       // type: 'dropdown',
       roles: ['firstshuji'],
-      position: 0
+      position: 10
     });
     // Add the dropdown list item
     // menuService.addSubMenuItem('sidemenu', 'majorsecretary', {

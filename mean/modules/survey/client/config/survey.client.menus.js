@@ -13,7 +13,7 @@
       state: 'survey.curd',
       // type: 'dropdown',
       roles: ['partygk'],
-      position: -10
+      position: 13
     });
 
     // Add the dropdown list item

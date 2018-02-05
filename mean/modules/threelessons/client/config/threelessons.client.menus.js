@@ -35,7 +35,7 @@
       state: 'threelessons.curd',
       // type: 'dropdown',
       roles: ['sanhui'],
-      position: 0
+      position: 12
     });
 
   }
