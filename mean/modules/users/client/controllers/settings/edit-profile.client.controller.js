@@ -5,9 +5,9 @@
     .module('users')
     .controller('EditProfileController', EditProfileController);
 
-  EditProfileController.$inject = ['$scope', '$http', '$location', 'UsersService', 'appService', 'Notification'];
+  EditProfileController.$inject = ['$scope', '$http', '$location', 'UsersService', 'appService', 'Notification', '$rootScope'];
 
-  function EditProfileController($scope, $http, $location, UsersService, appService, Notification) {
+  function EditProfileController($scope, $http, $location, UsersService, appService, Notification, $rootScope) {
     var vm = this;
 
     vm.user = appService.user;
@@ -21,15 +21,17 @@
 
         return false;
       }
-
+      $rootScope._openModal();
       var user = new UsersService(vm.user);
       user.$update(function (response) {
+        $rootScope.cancel();
         $scope.$broadcast('show-errors-reset', 'vm.userForm');
 
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Edit profile successful!' });
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> 修改成功!' });
         appService.user = response;
       }, function (response) {
-        Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Edit profile failed!' });
+        $rootScope.cancel();
+        Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> 修改失败!' });
       });
     }
   }

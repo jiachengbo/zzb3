@@ -60,18 +60,20 @@
       if (snode.parent === dnode) {
         return;
       }
-
+      $rootScope._openModal();
       //更新用户对应部门编码
       snode.value.department_id = dnode.value.id;
       snode.value.$update()
         .then(function(res) {
+          $rootScope.cancel();
           //移动的node设置为当前
           vm.showSelected(vm.serviceTree.moveNode(snode, dnode));
-          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> workposition draggdrop saved successfully!' });
+          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> 部门保存成功!' });
         })
         .catch(function(err) {
+          $rootScope.cancel();
           $log.error('workposition update save error:', err.data.message);
-          Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i> workposition draggdrop save error!' });
+          Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i> 部门保存失败!' });
         });
     };
 
@@ -167,12 +169,15 @@
     // 删除
     vm.remove = function() {
       if ($window.confirm('确定要删除用户(' + vm.currMUser.displayName + ')吗?')) {
+        $rootScope._openModal();
         vm.currMUser.$remove()
           .then(function() {
+            $rootScope.cancel();
             vm.showSelected(vm.serviceTree.removeNode(vm.selected));
             Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> 用户已删除!' });
           })
           .catch(function(err) {
+            $rootScope.cancel();
             $log.error('muser remove error:', err.data.message);
           });
       }

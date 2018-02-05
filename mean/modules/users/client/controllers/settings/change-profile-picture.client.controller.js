@@ -5,16 +5,16 @@
     .module('users')
     .controller('ChangeProfilePictureController', ChangeProfilePictureController);
 
-  ChangeProfilePictureController.$inject = ['$timeout', 'appService', 'Upload', 'Notification'];
+  ChangeProfilePictureController.$inject = ['$timeout', 'appService', 'Upload', 'Notification', '$rootScope'];
 
-  function ChangeProfilePictureController($timeout, appService, Upload, Notification) {
+  function ChangeProfilePictureController($timeout, appService, Upload, Notification, $rootScope) {
     var vm = this;
 
     vm.user = appService.user;
     vm.progress = 0;
 
     vm.upload = function (dataUrl) {
-
+      $rootScope._openModal();
       Upload.upload({
         url: '/api/users/picture',
         data: {
@@ -36,6 +36,7 @@
 
     // Called after the user has successfully uploaded a new picture
     function onSuccessItem(response) {
+      $rootScope.cancel();
       // Show success message
       Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Successfully changed profile picture' });
 
@@ -49,6 +50,7 @@
 
     // Called after the user has failed to upload a new picture
     function onErrorItem(response) {
+      $rootScope.cancel();
       vm.fileSelected = false;
       vm.progress = 0;
 
