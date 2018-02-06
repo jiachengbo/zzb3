@@ -14,7 +14,7 @@
       state: 'partymember',
       type: 'dropdown',
       roles: ['partymer'],
-      position: 1
+      position: 16
     });
     menuService.addSubMenuItem('sidemenu', 'partymember', {
       title: '党委',
@@ -31,28 +31,28 @@
       title: '党员信息管理',
       state: 'partymember.curd.one',
       roles: ['partymerdw'],
-      position: 1
+      position: 16
     });
     //党工委菜单
     menuService.addMenuItem('sidemenu', {
       title: '党员信息管理',
       state: 'partymember.curd.commone',
       roles: ['partymerdgw'],
-      position: 1
+      position: 16
     });
     //党总支菜单
     menuService.addMenuItem('sidemenu', {
       title: '党员信息管理',
       state: 'partymember.curd.three',
       roles: ['partymerdzz'],
-      position: 1
+      position: 16
     });
     //党支部菜单
     menuService.addMenuItem('sidemenu', {
       title: '党员信息管理',
       state: 'partymember.curd.main',
       roles: ['partymerdzb'],
-      position: 1
+      position: 16
     });
     /* var PartyBranch = baseCodeService.getItems('dj_PartyBranch');
      var PartyOrganization = baseCodeService.getItems('dj_PartyOrganization');

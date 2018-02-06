@@ -35,7 +35,7 @@
       state: 'basicinfo.topvoice',
       // type: 'dropdown',
       roles: ['notice'],
-      position: 0
+      position: 9
     });
   }
 }());

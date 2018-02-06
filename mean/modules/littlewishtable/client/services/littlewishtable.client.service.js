@@ -9,7 +9,7 @@
 
   function LittleWishTableService($resource, $log) {
     var LittleWishTable = $resource('/api/littleWishTable/:littleId', {
-      littleId: '@littleId'
+      littleId: '@id'
     }, {
       update: {
         method: 'PUT'

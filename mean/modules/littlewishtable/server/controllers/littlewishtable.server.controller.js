@@ -315,7 +315,7 @@ exports.littleWishTableByID = function (req, res, next, id) {
    listCount(req, res, littleStatus, gradeId, roleId, branchId, _super, OrgIds);
    } else if (id !== '0') {*/
   LittleWishTable.findOne({
-    where: {littleId: id}
+    where: {id: id}
   }).then(function (littleWishTable) {
     if (!littleWishTable) {
       logger.error('No littleWishTable with that identifier has been found');

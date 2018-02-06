@@ -49,12 +49,12 @@
         {name: '已认领'},
         {name: '已完成'}
       ];
-    } else {
+    } else if (vm.littleWishTableData.littleStatus === '未通过') {
       cvs_littleStatus = [
-        {name: '待认领'},
-        {name: '待审核'},
-        {name: '未通过'},
-        {name: '已认领'},
+        {name: '未通过'}
+      ];
+    } else if (vm.littleWishTableData.littleStatus === '已完成') {
+      cvs_littleStatus = [
         {name: '已完成'}
       ];
     }

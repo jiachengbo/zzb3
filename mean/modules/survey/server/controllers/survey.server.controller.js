@@ -271,7 +271,7 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var Survey = sequelize.model('Survey');
-  var User = sequelize.model('User');
+ // var User = sequelize.model('User');
   var id = req.query.id;
   var grade = req.query.grade;
   var objid = req.query.objid;
@@ -304,16 +304,16 @@ exports.list = function (req, res) {
  */
 exports.surveyByID = function (req, res, next, id) {
   var Survey = sequelize.model('Survey');
-  var User = sequelize.model('User');
+  //var User = sequelize.model('User');
 
   Survey.findOne({
-    where: {id: id},
+    where: {id: id}/*,
     include: [
       {
         model: User,
         attributes: ['displayName']
       }
-    ]
+    ]*/
   }).then(function (survey) {
     if (!survey) {
       logger.error('No survey with that identifier has been found');

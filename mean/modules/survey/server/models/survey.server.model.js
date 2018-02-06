@@ -40,8 +40,8 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: 'survey table',
-      indexes: [
+      comment: 'survey table'
+      /*indexes: [
         {
           //在外键上建立索引
           fields: ['user_id']
@@ -52,7 +52,7 @@ module.exports = function (sequelize, DataTypes) {
           this.belongsTo(models.User,
             {foreignKey: 'user_id'});
         }
-      }
+      }*/
     }
   );
 

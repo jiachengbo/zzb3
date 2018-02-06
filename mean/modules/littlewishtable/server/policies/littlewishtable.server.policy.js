@@ -19,7 +19,7 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/littleWishTable',
       permissions: '*'
     }, {
-      resources: '/api/littleWishTable/:littleWishTableId',
+      resources: '/api/littleWishTable/:littleId',
       permissions: '*'
     }]
   }]);
