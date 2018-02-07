@@ -34,7 +34,13 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: 'dj_PartyOrganization table'
+      comment: 'dj_PartyOrganization table',
+      classMethods: {
+        associate: function (models) {
+          this.hasMany(models.dj_PartyGeneralBranch,
+            {foreignKey: 'superior', targetKey: 'typeID'});
+        }
+      }
     }
   );
   dbExtend.addBaseCode('dj_PartyOrganization', {attributes: ['typeID', 'typeName', 'simpleName', 'comType', 'roleID', 'GradeID']});

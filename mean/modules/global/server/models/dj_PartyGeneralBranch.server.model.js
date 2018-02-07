@@ -37,7 +37,19 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: '党工委、党委党总支信息表'
+      comment: '党工委、党委党总支信息表',
+      indexes: [
+        {
+          //在外键上建立索引
+          fields: ['superior']
+        }
+      ],
+      classMethods: {
+        associate: function (models) {
+          this.belongsTo(models.dj_PartyOrganization,
+            {foreignKey: 'superior'});
+        }
+      }
     }
   );
   dbExtend.addBaseCode('dj_PartyGeneralBranch', {

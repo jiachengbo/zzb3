@@ -345,7 +345,7 @@ function listByPage(req, res, limit, offset, littleStatus, gradeId, roleId, bran
         superOpt
       ]
     },
-    limit: offset,
+    limit: 20,
     offset: limit,
     order: 'id desc'
   }).then(function (littleWishTable) {

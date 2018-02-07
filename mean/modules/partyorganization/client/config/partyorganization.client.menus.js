@@ -10,7 +10,7 @@
   function menuConfig(menuService/*, appService, baseCodeService, $window*/) {
     //区委菜单
     menuService.addMenuItem('sidemenu', {
-      title: '党组织信息管理',
+      title: '党支部信息管理',
       state: 'partyorganization',
       type: 'dropdown',
       roles: ['partyzuzhi'],
@@ -28,10 +28,10 @@
     });
     //党委党工委党总支党支部菜单
     menuService.addMenuItem('sidemenu', {
-      title: '党组织信息管理',
+      title: '党支部信息管理',
       state: 'partyorganization.curd.main',
       roles: ['partyzuzhidwordgw'],
-      position: 15
+      position: 16
     });
     /*//菜单
     menuService.addMenuItem('sidemenu', {
