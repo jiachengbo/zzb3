@@ -4,41 +4,48 @@
  * Module dependencies
  */
 var path = require('path'),
+  fs = require('fs'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   sequelize = require(path.resolve('./config/lib/sequelize')),
   uuid = require('uuid'),
+  multer = require(path.resolve('./config/private/multer')),
   logger = require(path.resolve('./config/lib/logger')).getLogger_FileNameBase(__filename);
 
 /**
  * Create an littleWishTable
  */
-exports.create = function (req, res) {
-  var LittleWishTable = sequelize.model('LittleWishTable');
-  var littleWishTable = LittleWishTable.build(req.body);
-  littleWishTable.littleId = uuid.v4().replace(/-/g, '');
-  // 添加用户的 gradeId roleId PartyBranchID
-  var user = req.user;
-  littleWishTable.gradeId = parseInt(user.user_grade, 0);
-  littleWishTable.roleId = parseInt(user.JCDJ_User_roleID, 0);
-  littleWishTable.PartyBranchID = parseInt(user.branch, 0);
-  littleWishTable.super = req.body.super;
-  littleWishTable.streetID = req.body.streetID;
-  littleWishTable.communityID = req.body.communityID;
-  littleWishTable.grid = req.body.grid;
-  littleWishTable.save().then(function () {
-    //重新加载数据，使数据含有关联表的内容
-    return littleWishTable.reload()
-      .then(function () {
-        res.json(littleWishTable);
-      });
-  }).catch(function (err) {
-    logger.error('littleWishTable create error:', err);
-    return res.status(422).send({
-      message: errorHandler.getErrorMessage(err)
-    });
-  });
-};
-
+/*exports.create = function (req, res) {
+ var LittleWishTable = sequelize.model('LittleWishTable');
+ var littleWishTable = LittleWishTable.build(req.body);
+ littleWishTable.littleId = uuid.v4().replace(/-/g, '');
+ // 添加用户的 gradeId roleId PartyBranchID
+ var user = req.user;
+ littleWishTable.gradeId = parseInt(user.user_grade, 0);
+ littleWishTable.roleId = parseInt(user.JCDJ_User_roleID, 0);
+ littleWishTable.PartyBranchID = parseInt(user.branch, 0);
+ littleWishTable.super = req.body.super;
+ littleWishTable.streetID = req.body.streetID;
+ littleWishTable.communityID = req.body.communityID;
+ littleWishTable.grid = req.body.grid;
+ littleWishTable.save().then(function () {
+ //重新加载数据，使数据含有关联表的内容
+ return littleWishTable.reload()
+ .then(function () {
+ res.json(littleWishTable);
+ });
+ }).catch(function (err) {
+ logger.error('littleWishTable create error:', err);
+ return res.status(422).send({
+ message: errorHandler.getErrorMessage(err)
+ });
+ });
+ };*/
+var saveDir = 'littlewishimgfile';
+var uploadImage = new multer(saveDir,
+  10 * 1024 * 1024,
+  /image/, '.jpg');
+//创建目录
+uploadImage.mkPaths();
 /**
  * Show the current littleWishTable
  */
@@ -52,40 +59,139 @@ exports.read = function (req, res) {
 /**
  * Update an littleWishTable
  */
-exports.update = function (req, res) {
-  var littleWishTable = req.model;
-  littleWishTable.littleId = req.body.littleId;
-  littleWishTable.littleTitle = req.body.littleTitle;
-  littleWishTable.littleContent = req.body.littleContent;
-  littleWishTable.littleDate = req.body.littleDate;
-  littleWishTable.littlePerson = req.body.littlePerson;
-  littleWishTable.littleClaimant = req.body.littleClaimant;
-  littleWishTable.littleClaimDate = req.body.littleClaimDate;
-  littleWishTable.littleStatus = req.body.littleStatus;
-  littleWishTable.nPassReason = req.body.nPassReason;
-  littleWishTable.littleNum = req.body.littleNum;
-  littleWishTable.isdelete = req.body.isdelete;
-  littleWishTable.createUserId = req.body.createUserId;
-  littleWishTable.createDate = req.body.createDate;
-  littleWishTable.modifyUserId = req.body.modifyUserId;
-  littleWishTable.modifyDate = req.body.modifyDate;
-  // littleWishTable.littlePhoto = req.body.littlePhoto;
-  littleWishTable.littltCon = req.body.littltCon;
-  littleWishTable.issend = req.body.issend;
-  littleWishTable.tx = req.body.tx;
-  littleWishTable.ClaimTime = req.body.ClaimTime;
-  // littleWishTable.isPhoneDJ = req.body.isPhoneDJ;
-  littleWishTable.PartyBranchID = req.body.PartyBranchID;
-  littleWishTable.sbphone = req.body.sbphone;
-  littleWishTable.claimphone = req.body.claimphone;
+/*exports.update = function (req, res) {
+ var littleWishTable = req.model;
+ littleWishTable.littleId = req.body.littleId;
+ littleWishTable.littleTitle = req.body.littleTitle;
+ littleWishTable.littleContent = req.body.littleContent;
+ littleWishTable.littleDate = req.body.littleDate;
+ littleWishTable.littlePerson = req.body.littlePerson;
+ littleWishTable.littleClaimant = req.body.littleClaimant;
+ littleWishTable.littleClaimDate = req.body.littleClaimDate;
+ littleWishTable.littleStatus = req.body.littleStatus;
+ littleWishTable.nPassReason = req.body.nPassReason;
+ littleWishTable.littleNum = req.body.littleNum;
+ littleWishTable.isdelete = req.body.isdelete;
+ littleWishTable.createUserId = req.body.createUserId;
+ littleWishTable.createDate = req.body.createDate;
+ littleWishTable.modifyUserId = req.body.modifyUserId;
+ littleWishTable.modifyDate = req.body.modifyDate;
+ // littleWishTable.littlePhoto = req.body.littlePhoto;
+ littleWishTable.littltCon = req.body.littltCon;
+ littleWishTable.issend = req.body.issend;
+ littleWishTable.tx = req.body.tx;
+ littleWishTable.ClaimTime = req.body.ClaimTime;
+ // littleWishTable.isPhoneDJ = req.body.isPhoneDJ;
+ littleWishTable.PartyBranchID = req.body.PartyBranchID;
+ littleWishTable.sbphone = req.body.sbphone;
+ littleWishTable.claimphone = req.body.claimphone;
 
-  littleWishTable.save().then(function () {
-    res.json(littleWishTable);
-  }).catch(function (err) {
-    return res.status(422).send({
-      message: errorHandler.getErrorMessage(err)
+ littleWishTable.save().then(function () {
+ res.json(littleWishTable);
+ }).catch(function (err) {
+ return res.status(422).send({
+ message: errorHandler.getErrorMessage(err)
+ });
+ });
+ };*/
+exports.update = function (req, res) {
+  var existingImageUrl;
+  var newingImageUrl;
+  var newingFileUrl;
+  var littleWishTable;
+  var user = req.user;
+  var isadd;
+  if (req.model) {
+    littleWishTable = req.model;
+    isadd = false;
+  } else {
+    littleWishTable = sequelize.model('LittleWishTable');
+    littleWishTable = littleWishTable.build(req.body);
+    littleWishTable.littleId = uuid.v4().replace(/-/g, '');
+    littleWishTable.gradeId = parseInt(user.user_grade, 0);
+    littleWishTable.roleId = parseInt(user.JCDJ_User_roleID, 0);
+    littleWishTable.PartyBranchID = parseInt(user.branch, 0);
+    isadd = true;
+  }
+  if (littleWishTable) {
+    existingImageUrl = littleWishTable.littlePhoto;
+    uploadImage.recv(req, res, [{name: 'littlePhoto'}])
+      .then(updateUserInfo)
+      .then(deleteOldImage)
+      .then(function () {
+        res.json(littleWishTable);
+      })
+      .catch(function (err) {
+        logger.error('recv upload littlewishtable picture err:', err);
+        res.status(422).send(err);
+      });
+  } else {
+    res.status(401).send({
+      message: 'survey is not exist'
     });
-  });
+  }
+
+  function updateUserInfo(files) {
+    return new Promise(function (resolve, reject) {
+      if (littleWishTable) {
+        if (files && files.littlePhoto && files.littlePhoto.length === 1) {
+          littleWishTable.littlePhoto = path.join(uploadImage.mountDir, files.littlePhoto[0].filename).replace(/\\/g, '/');
+          newingImageUrl = littleWishTable.littlePhoto;
+          littleWishTable.littlePhoto = 'http://127.0.0.1:3000' + littleWishTable.littlePhoto;
+        }
+        if (isadd) {
+          littleWishTable.super = req.body.super;
+          littleWishTable.streetID = req.body.streetID;
+          littleWishTable.communityID = req.body.communityID;
+          littleWishTable.grid = req.body.grid;
+          littleWishTable.createDate = new Date();
+          littleWishTable.createDate = littleWishTable.createDate.toLocaleString();
+        }
+        littleWishTable.sbphone = req.body.sbphone;
+        littleWishTable.littleClaimant = req.body.littleClaimant;
+        littleWishTable.claimphone = req.body.claimphone;
+        littleWishTable.nPassReason = req.body.nPassReason;
+        littleWishTable.littleTitle = req.body.littleTitle;
+        littleWishTable.littleContent = req.body.littleContent;
+        littleWishTable.littleDate = req.body.littleDate;
+        littleWishTable.littlePerson = req.body.littlePerson;
+        littleWishTable.littleClaimDate = req.body.littleClaimDate;
+        littleWishTable.littleStatus = req.body.littleStatus;
+        littleWishTable.littltCon = req.body.littltCon;
+        littleWishTable.littleNum = 1;
+        littleWishTable.modifyDate = new Date();
+        littleWishTable.modifyDate = littleWishTable.modifyDate.toLocaleString();
+        littleWishTable.save().then(function () {
+          return littleWishTable.reload()
+            .then(function () {
+              resolve();
+            });
+        }).catch(function (err) {
+          reject(err);
+        });
+        // }
+      } else {
+        reject(new Error('no survey littlePhoto img upload'));
+      }
+    });
+  }
+
+  function deleteOldImage() {
+    return new Promise(function (resolve, reject) {
+      if (existingImageUrl && newingFileUrl) {
+        var oldfile = existingImageUrl.replace(uploadImage.mountDir, uploadImage.diskDir);
+        fs.unlink(oldfile, function (unlinkError) {
+          if (unlinkError) {
+            resolve();
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
 };
 
 /**

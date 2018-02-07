@@ -10,11 +10,11 @@ module.exports = function (app) {
   // LittleWishTable collection routes
   app.route('/api/littleWishTable').all(littleWishTablePolicy.isAllowed)
     .get(littleWishTable.list)
-    .post(littleWishTable.create);
+    .post(littleWishTable.update);
   // Single littleWishTable routes
   app.route('/api/littleWishTable/:littleId').all(littleWishTablePolicy.isAllowed)
     .get(littleWishTable.read)
-    .put(littleWishTable.update)
+    .post(littleWishTable.update)
     .delete(littleWishTable.delete);
 
   // Finish by binding the littleWishTable middleware

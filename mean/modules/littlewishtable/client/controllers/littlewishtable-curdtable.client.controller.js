@@ -5,8 +5,8 @@
     .module('littleWishTable')
     .controller('LittleWishTableCURDTableController', LittleWishTableCURDTableController);
 
-  LittleWishTableCURDTableController.$inject = ['$stateParams', '$scope', 'Notification', '$log', '$window', 'uiGridConstants', 'LittleWishTableService', '$uibModal', 'baseCodeService', 'appService'];
-  function LittleWishTableCURDTableController($stateParams, $scope, Notification, $log, $window, uiGridConstants, LittleWishTableService, $uibModal, baseCodeService, appService) {
+  LittleWishTableCURDTableController.$inject = ['$stateParams', '$scope', 'Notification', '$log', '$window', 'uiGridConstants', 'LittleWishTableService', '$uibModal', 'baseCodeService', 'appService', 'Upload'];
+  function LittleWishTableCURDTableController($stateParams, $scope, Notification, $log, $window, uiGridConstants, LittleWishTableService, $uibModal, baseCodeService, appService, Upload) {
     var vm = this;
     var i;
     var aUser = appService.user;
@@ -160,8 +160,11 @@
            }
            }*/
         }
-
-        result.$save()
+        Upload.upload({
+          url: '/api/littleWishTable',
+          data: result
+        })
+        //result.$save()
           .then(function (res) {
             //-----------------分页1：新增后， 刷新记录总数---------------
             refreshRecordCount(vm.queryParam);
@@ -214,7 +217,11 @@
       modalInstance.result.then(function (result) {
         $log.log('modal ok:', result);
         if (isupdate) {
-          result.$update()
+          Upload.upload({
+            url: '/api/littleWishTable/' + result.id,
+            data: result
+          })
+          // result.$update()
             .then(function (res) {
               //修改表格显示的数据
               // angular.extend(vm.selectedRow, res);

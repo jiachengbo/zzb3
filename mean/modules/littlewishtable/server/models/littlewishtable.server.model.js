@@ -140,6 +140,10 @@ module.exports = function (sequelize, DataTypes) {
       claimphone: {
         type: DataTypes.STRING,
         comment: '认领人电话'
+      },
+      imgFile: {
+        type: DataTypes.STRING,
+        comment: '图片路径'
       }
     },
     {

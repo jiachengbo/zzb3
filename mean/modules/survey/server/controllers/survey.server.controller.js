@@ -219,8 +219,8 @@ exports.update = function (req, res) {
       // } else {
       //   resolve();
       // }
-      if (existingFileUrl && newingFileUrl) {
-        var oldfile = existingFileUrl.replace(uploadImage.mountDir, uploadImage.diskDir);
+      if (existingImageUrl && newingImageUrl) {
+        var oldfile = existingImageUrl.replace(uploadImage.mountDir, uploadImage.diskDir);
         fs.unlink(oldfile, function (unlinkError) {
           if (unlinkError) {
             resolve();

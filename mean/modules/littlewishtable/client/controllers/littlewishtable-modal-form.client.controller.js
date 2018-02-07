@@ -26,12 +26,17 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.littleWishTableForm');
         return;
       }
+      if (vm.picFile) {
+        vm.littleWishTableData.littlePhoto = vm.picFile;
+      }
       $uibModalInstance.close(vm.littleWishTableData);
     };
     vm.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
     //状态 select
+    vm.wanchengstatus = false;
+    vm.weitonguo = false;
     var cvs_littleStatus;
     if (vm.littleWishTableData.littleStatus === '待审核') {
       cvs_littleStatus = [
@@ -50,11 +55,23 @@
         {name: '已完成'}
       ];
     } else if (vm.littleWishTableData.littleStatus === '未通过') {
+      vm.weitonguo = true;
+      vm.disabled = true;
       cvs_littleStatus = [
         {name: '未通过'}
       ];
     } else if (vm.littleWishTableData.littleStatus === '已完成') {
+      vm.wanchengstatus = true;
+      vm.disabled = true;
       cvs_littleStatus = [
+        {name: '已完成'}
+      ];
+    } else {
+      cvs_littleStatus = [
+        {name: '待审核'},
+        {name: '待认领'},
+        {name: '未通过'},
+        {name: '已认领'},
         {name: '已完成'}
       ];
     }
@@ -64,7 +81,13 @@
     } else {
       vm.littleWishTableData.littleStatus = littleWishTableData.littleStatus;
     }
-
+    vm.lwchange = function (status) {
+      if (status === '已完成') {
+        vm.wanchengstatus = true;
+      } else if (status === '未通过') {
+        vm.weitonguo = true;
+      }
+    };
     //日期选择器
     $scope.today = function () {
       vm.littleWishTableData.littleDate = new Date(littleWishTableData.littleDate);
