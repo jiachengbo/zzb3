@@ -78,19 +78,15 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: 'grid table'//,
-      // indexes: [
-      //   {
-      //     //在外键上建立索引
-      //     fields: ['user_id']
-      //   }
-      // ],
-      // classMethods: {
-      //   associate: function (models) {
-      //     this.belongsTo(models.User,
-      //       {foreignKey: 'user_id'});
-      //   }
-      // }
+      comment: 'grid table'/*,
+      classMethods: {
+        associate: function (models) {
+          this.hasMany(models.AdviceTable,
+            {foreignKey: 'streetID', targetKey: 'streetID'});
+          this.hasMany(models.ProblemTable,
+            {foreignKey: 'streetID', targetKey: 'streetID'});
+        }
+      }*/
     }
   );
   dbExtend.addBaseCode('grid', {attributes: ['gridnumid', 'gridName', 'gridId', 'departmentId', 'gridNum', 'streetID']});

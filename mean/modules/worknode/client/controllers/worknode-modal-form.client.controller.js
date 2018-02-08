@@ -72,7 +72,8 @@
         $scope.grid.push(v);
       }
       if (vm.method !== '增加') {
-        if (v.gridName === vm.worknodeData.gridId) {
+        if (v.gridNum === vm.worknodeData.gridId) {
+          console.log(v.gridId);
           vm.worknodeData.gridId = v.gridId;
         }
       }

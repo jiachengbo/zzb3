@@ -133,19 +133,15 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: 'street_info table'//,
-      // indexes: [
-      //   {
-      //     //在外键上建立索引
-      //     fields: ['user_id']
-      //   }
-      // ],
-      // classMethods: {
-      //   associate: function (models) {
-      //     this.belongsTo(models.User,
-      //       {foreignKey: 'user_id'});
-      //   }
-      // }
+      comment: 'street_info table',
+      classMethods: {
+        associate: function (models) {
+          this.hasMany(models.AdviceTable,
+            {foreignKey: 'streetID', targetKey: 'streetID'});
+          this.hasMany(models.ProblemTable,
+            {foreignKey: 'streetID', targetKey: 'streetID'});
+        }
+      }
     }
   );
   dbExtend.addBaseCode('street_info', {attributes: ['streetID', 'streetName']});
