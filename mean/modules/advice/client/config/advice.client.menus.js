@@ -11,8 +11,8 @@
     menuService.addMenuItem('sidemenu', {
       title: '投诉建议',
       state: 'advice.curd',
-      roles: ['*'],
-      position: 0
+      roles: ['advice'],
+      position: -1
     });
 
     // Add the dropdown list item

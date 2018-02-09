@@ -11,7 +11,7 @@
     menuService.addMenuItem('sidemenu', {
       title: '问题咨询',
       state: 'problem.curd',
-      roles: ['*'],
+      roles: ['problems'],
       position: 0
     });
 

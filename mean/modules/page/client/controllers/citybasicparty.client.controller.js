@@ -62,6 +62,7 @@
       }
     });
     litterxinService.query({gradeId: user_grade}).$promise.then(function (data) {
+      console.log(data);
       vm.litterxin = data;
     });
     var myChart = $window.echarts.init(document.getElementById('main'));

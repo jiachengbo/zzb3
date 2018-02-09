@@ -27,9 +27,9 @@ exports.create = function (req, res) {
         }
       ]
     })
-    .then(function() {
-      res.json(advice);
-    });
+      .then(function () {
+        res.json(advice);
+      });
   }).catch(function (err) {
     logger.error('advice create error:', err);
     return res.status(422).send({
@@ -62,8 +62,10 @@ exports.update = function (req, res) {
   advice.createDate = req.body.createDate;
   advice.modifyUserId = req.body.modifyUserId;
   advice.releasePerson = req.body.releasePerson;
-  advice.replyTime = req.body.replyTime;
+  advice.replyTime = new Date();
+  advice.replyTime = advice.replyTime.toLocaleString();
   advice.replyContent = req.body.replyContent;
+  advice.issend = req.body.issend;
   advice.streetID = req.body.streetID;
   advice.communityID = req.body.communityID;
   advice.gridID = req.body.gridID;
@@ -98,21 +100,62 @@ exports.delete = function (req, res) {
 exports.list = function (req, res) {
   var Advice = sequelize.model('AdviceTable');
   var street_info = sequelize.model('street_info');
-
-  Advice.findAll({
-    include: [
-      {
-        model: street_info,
-        attributes: ['streetName']
-      }
-    ],
-    order: 'id ASC'
-  }).then(function (advice) {
-    return res.jsonp(advice);
-  }).catch(function (err) {
-    logger.error('advice list error:', err);
-    return res.status(422).send(err);
-  });
+  var issum = req.query.issum;
+  var offset = req.query.offset;
+  var limit = req.query.limit;
+  var streetID = req.query.streetID;
+  var communityID = req.query.communityID;
+  var gridID = req.query.gridID;
+  var where;
+  if (streetID) {
+    where = {
+      streetID: streetID
+    };
+  }
+  if (communityID) {
+    where = {
+      $or: [
+        {streetID: streetID, communityID: communityID, istype: 0},
+        {streetID: streetID, istype: 1}
+      ]
+    };
+  }
+  if (gridID) {
+    where = {
+      streetID: streetID,
+      communityID: communityID,
+      gridID: gridID
+    };
+  }
+  if (issum === '1') {
+    Advice.findAll({
+      where: where,
+      attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]
+    }).then(function (advice) {
+      return res.jsonp(advice);
+    }).catch(function (err) {
+      logger.error('advice list error:', err);
+      return res.status(422).send(err);
+    });
+  } else {
+    Advice.findAll({
+      where: where,
+      include: [
+        {
+          model: street_info,
+          attributes: ['streetName']
+        }
+      ],
+      offset: offset,
+      limit: limit,
+      order: 'id ASC'
+    }).then(function (advice) {
+      return res.jsonp(advice);
+    }).catch(function (err) {
+      logger.error('advice list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 /**
@@ -124,12 +167,12 @@ exports.adviceByID = function (req, res, next, id) {
 
   Advice.findOne({
     where: {id: id}/*,
-    include: [
-      {
-        model: User,
-        attributes: ['displayName']
-      }
-    ]*/
+     include: [
+     {
+     model: User,
+     attributes: ['displayName']
+     }
+     ]*/
   }).then(function (advice) {
     if (!advice) {
       logger.error('No advice with that identifier has been found');
@@ -137,7 +180,6 @@ exports.adviceByID = function (req, res, next, id) {
         message: 'No advice with that identifier has been found'
       });
     }
-
     req.model = advice;
     next();
   }).catch(function (err) {

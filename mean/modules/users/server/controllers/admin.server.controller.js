@@ -154,15 +154,16 @@ exports.update = function (req, res) {
   //model.build 不会将非表字段加入实例，而instance.update会将所有参数加入实例
   //如果使用了update(req.body),没有使用save,就不需要再调用user.set('wps', req.body.wps, {raw: true})设置新关联内容了
   /// function getupdata(){
+  console.time('计时器1');
   user.update(req.body).then(function () {
     if (req.body.wps && Array.isArray(req.body.wps)) {
       var workpositions = req.body.wps.map(function (workposition) {
-        console.log(workposition);
         return WorkPosition.build(workposition);
       });
       return user.setWps(workpositions);
     }
   }).then(function () {
+    console.timeEnd('计时器1');
     res.json(user);
   }).catch(function (err) {
     logger.error('admin user update error:', err);
@@ -197,6 +198,7 @@ exports.delete = function (req, res) {
  * List of Users
  */
 exports.list = function (req, res) {
+  console.time('计时器');
   User.findAll({
     attributes: {
       exclude: ['password', 'salt', 'providerData',
@@ -215,6 +217,7 @@ exports.list = function (req, res) {
     ],
     order: 'createdAt DESC'
   }).then(function (users) {
+    console.timeEnd('计时器');
     res.json(users);
   }).catch(function (err) {
     logger.error('admin user list error:', err);

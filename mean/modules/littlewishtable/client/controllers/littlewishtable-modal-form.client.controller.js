@@ -89,6 +89,7 @@
       }
     };
     //日期选择器
+    $scope.format = 'yyyy-MM-dd';
     $scope.today = function () {
       vm.littleWishTableData.littleDate = new Date(littleWishTableData.littleDate);
       vm.littleWishTableData.littleClaimDate = new Date(littleWishTableData.littleClaimDate);

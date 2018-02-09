@@ -24,6 +24,7 @@
         controller: 'ThreelessonsModalFormController',
         controllerAs: 'vm',
         backdrop: 'static',
+        size: 'lg',
         resolve: resarg
       });
     };
@@ -226,8 +227,6 @@
     //取后台Threelessons表所有数据
     ThreelessonsService.query({gradeId: UserMsg.gradeId, objId: UserMsg.objId}).$promise.then(function (data) {
       angular.forEach(data, function (value, k) {
-        value.starttime = value.starttime ? Timer.format(value.starttime) : value.starttime;
-        value.endtime = value.endtime ? Timer.format(value.endtime) : value.endtime;
         value.createdate = value.createdate ? Timer.format(value.createdate) : value.createdate;
       });
       vm.gridOptions.data = vm.tableData = data;

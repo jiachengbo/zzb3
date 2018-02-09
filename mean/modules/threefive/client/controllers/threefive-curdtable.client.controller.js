@@ -86,7 +86,7 @@
           .catch(function(err) {
             $log.error('数据增加出现错误:', err.data.message);
             Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i>' +
-              ' threefive add save error!' });
+              ' 增加失败!' });
           });
       })
       .catch(function(reason) {
@@ -110,7 +110,7 @@
         .catch(function(err) {
           $log.error('数据删除错误:', err.data.message);
           Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i>' +
-          ' threefive delete error!' });
+          ' 删除失败!' });
         });
       }
     };
@@ -140,7 +140,7 @@
             .catch(function(err) {
               $log.error('数据修改错误:', err.data.message);
               Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i> ' +
-              'threefive update save error!' });
+              '修改失败!' });
             });
         }
       }).catch(function(reason) {

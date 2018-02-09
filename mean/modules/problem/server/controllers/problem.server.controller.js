@@ -12,24 +12,22 @@ var path = require('path'),
  * Create an problem
  */
 exports.create = function (req, res) {
-  //var User = sequelize.model('User');
-  var Problem = sequelize.model('Problem');
+  var street_info = sequelize.model('street_info');
+  var Problem = sequelize.model('ProblemTable');
   var problem = Problem.build(req.body);
-
-  //problem.user_id = req.user.id;
   problem.save().then(function () {
     //重新加载数据，使数据含有关联表的内容
     return problem.reload({
-      /*include: [
+      include: [
         {
-          model: User,
-          attributes: ['displayName']
+          model: street_info,
+          attributes: ['streetName']
         }
-      ]*/
+      ]
     })
-    .then(function() {
-      res.json(problem);
-    });
+      .then(function () {
+        res.json(problem);
+      });
   }).catch(function (err) {
     logger.error('problem create error:', err);
     return res.status(422).send({
@@ -57,7 +55,18 @@ exports.update = function (req, res) {
   var problem = req.model;
 
   problem.title = req.body.title;
-  problem.content = req.body.content;
+  problem.photo = req.body.photo;
+  problem.adviceContent = req.body.adviceContent;
+  problem.createDate = req.body.createDate;
+  problem.modifyUserId = req.body.modifyUserId;
+  problem.releasePerson = req.body.releasePerson;
+  problem.replyTime = new Date();
+  problem.replyTime = problem.replyTime.toLocaleString();
+  problem.replyContent = req.body.replyContent;
+  problem.issend = req.body.issend;
+  problem.streetID = req.body.streetID;
+  problem.communityID = req.body.communityID;
+  problem.gridID = req.body.gridID;
 
   problem.save().then(function () {
     res.json(problem);
@@ -87,40 +96,81 @@ exports.delete = function (req, res) {
  * List of Problem
  */
 exports.list = function (req, res) {
-  var Problem = sequelize.model('Problem');
- // var User = sequelize.model('User');
-
-  Problem.findAll({
-    /*include: [
-      {
-        model: User,
-        attributes: ['displayName']
-      }
-    ],*/
-    order: 'id ASC'
-  }).then(function (problem) {
-    return res.jsonp(problem);
-  }).catch(function (err) {
-    logger.error('problem list error:', err);
-    return res.status(422).send(err);
-  });
+  var Problem = sequelize.model('ProblemTable');
+  var street_info = sequelize.model('street_info');
+  var issum = req.query.issum;
+  var offset = req.query.offset;
+  var limit = req.query.limit;
+  var streetID = req.query.streetID;
+  var communityID = req.query.communityID;
+  var gridID = req.query.gridID;
+  var where;
+  if (streetID) {
+    where = {
+      streetID: streetID
+    };
+  }
+  if (communityID) {
+    where = {
+      $or: [
+        {streetID: streetID, communityID: communityID, istype: 0},
+        {streetID: streetID, istype: 1}
+      ]
+    };
+  }
+  if (gridID) {
+    where = {
+      streetID: streetID,
+      communityID: communityID,
+      gridID: gridID
+    };
+  }
+  if (issum === '1') {
+    Problem.findAll({
+      where: where,
+      attributes: [[sequelize.fn('COUNT', sequelize.col('id')), 'count']]
+    }).then(function (advice) {
+      return res.jsonp(advice);
+    }).catch(function (err) {
+      logger.error('advice list error:', err);
+      return res.status(422).send(err);
+    });
+  } else {
+    Problem.findAll({
+      where: where,
+      include: [
+        {
+          model: street_info,
+          attributes: ['streetName']
+        }
+      ],
+      offset: offset,
+      limit: limit,
+      order: 'id ASC'
+    }).then(function (advice) {
+      return res.jsonp(advice);
+    }).catch(function (err) {
+      logger.error('advice list error:', err);
+      return res.status(422).send(err);
+    });
+  }
 };
 
 /**
  * Problem middleware
  */
 exports.problemByID = function (req, res, next, id) {
-  var Problem = sequelize.model('Problem');
-  //var User = sequelize.model('User');
+  var Problem = sequelize.model('ProblemTable');
+  var street_info = sequelize.model('street_info');
 
   Problem.findOne({
     where: {id: id},
-    /*include: [
+    include: [
       {
-        model: User,
-        attributes: ['displayName']
+        model: street_info,
+        attributes: ['streetName']
       }
-    ]*/
+    ]
   }).then(function (problem) {
     if (!problem) {
       logger.error('No problem with that identifier has been found');

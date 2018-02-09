@@ -112,19 +112,19 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: 'problem table'/*,
+      comment: 'problem table',
       indexes: [
         {
           //在外键上建立索引
-          fields: ['user_id']
+          fields: ['streetID']
         }
       ],
       classMethods: {
         associate: function (models) {
-          this.belongsTo(models.User,
-            {foreignKey: 'user_id'});
+          this.belongsTo(models.street_info,
+            {foreignKey: 'streetID'});
         }
-      }*/
+      }
     }
   );
 

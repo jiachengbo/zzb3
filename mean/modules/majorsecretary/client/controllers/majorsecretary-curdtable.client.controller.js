@@ -90,12 +90,12 @@
           vm.tableData.splice(rowindex, 1);
           //复位当前行
           vm.selectedRow = null;
-          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> majorsecretary deleted successfully!' });
+          Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> 删除成功!' });
         })
         .catch(function(err) {
           $log.error('majorsecretary deleted error:', err.data.message);
           Notification.error({ message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i>' +
-          ' majorsecretary delete error!' });
+          ' 删除失败!' });
         });
       }
     };

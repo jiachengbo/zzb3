@@ -16,7 +16,7 @@
     vm.authentication = appService;
     vm.menus = menuService;
     var jcxxglarr = ['partygk', 'partymer', 'sanhui', 'notice', 'firstshuji', 'banzi', 'partyzuzhi', 'partydt', 'partygeneral'];
-    var cityjcdjarr = ['threefive', 'prowall', 'worknode', 'project', 'build', 'build', 'jobduty', 'litterwish', 'partymap', 'orgset'];
+    var cityjcdjarr = ['threefive', 'prowall', 'worknode', 'project', 'build', 'build', 'jobduty', 'litterwish', 'partymap', 'orgset', 'advice', 'problems'];
     if (!appService.user) {
       $state.go('authentication.signin');
     }

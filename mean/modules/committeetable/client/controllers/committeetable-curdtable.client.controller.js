@@ -73,7 +73,7 @@
             $log.error('committeeTable add save error:', err.data.message);
             Notification.error({
               message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i>' +
-              ' committeeTable add save error!'
+              ' 新增失败!'
             });
           });
       })
@@ -84,7 +84,7 @@
 
     //删除数据
     vm.remove = function () {
-      if ($window.confirm('Are you sure you want to remove selected record?')) {
+      if ($window.confirm('你确定你想要删除选定的记录?')) {
         vm.selectedRow.$remove(function () {
           //  var rowindex = vm.tableData.indexOf(vm.selectedRow);
           //去掉表格中的数据
@@ -97,7 +97,7 @@
             $log.error('committeeTable deleted error:', err.data.message);
             Notification.error({
               message: err.data.message, title: '<i class="glyphicon glyphicon-remove"></i>' +
-              ' committeeTable delete error!'
+              ' 删除失败!'
             });
           });
       }
@@ -126,7 +126,7 @@
             .then(function (res) {
               //修改表格显示的数据
               //angular.extend(vm.selectedRow, res);
-              Notification.success({message: '<i class="glyphicon glyphicon-ok"></i> committeeTable update saved successfully!'});
+              Notification.success({message: '<i class="glyphicon glyphicon-ok"></i> 修改成功!'});
             })
             .catch(function (err) {
               $log.error('committeeTable update save error:', err.data.message);

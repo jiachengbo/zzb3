@@ -58,7 +58,6 @@
                       id="streetid"
                       ng-model="vm.adviceData.streetID"
                       ng-options="street.streetID as street.streetName for street in street"
-                      required
                       name="streetid"
                       ng-disabled="true">
               </select>
@@ -74,7 +73,6 @@
                       id="communityid"
                       ng-model="vm.adviceData.communityID"
                       ng-options="community.communityId as community.communityName for community in community"
-                      required
                       name="communityid"
                       ng-disabled="true">
               </select>
@@ -90,7 +88,6 @@
                       id="gridId"
                       ng-model="vm.adviceData.gridID"
                       ng-options="grid.gridId as grid.gridNum for grid in grid"
-                      required
                       name="gridId"
                       ng-disabled="true">
               </select>

@@ -62,7 +62,7 @@
 
     //删除数据
     vm.remove = function() {
-      if ($window.confirm('Are you sure you want to remove selected record?')) {
+      if ($window.confirm('你确定你想要删除选定的记录?')) {
         vm.selectedRow.$remove(function() {
           var rowindex = vm.tableData.indexOf(vm.selectedRow);
           //去掉表格中的数据

@@ -47,23 +47,25 @@
         }
       }
     });
-    console.log($scope.grid,vm.adviceData.gridID);
     //在这里处理要进行的操作
-    if(vm.adviceData.releasePerson){
+    if (!vm.adviceData.releasePerson) {
       vm.adviceData.releasePerson = appService.user.displayName;
     }
-    if(vm.adviceData.replyTime){
+    if (!vm.adviceData.replyTime) {
       var time = new Date();
       vm.adviceData.replyTime = time.toLocaleString();
     }
-    vm.ok = function(isValid) {
+    vm.ok = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.adviceForm');
         return;
       }
+      if (vm.adviceData.replyContent) {
+        vm.adviceData.issend = 1;
+      }
       $uibModalInstance.close(vm.adviceData);
     };
-    vm.cancel = function() {
+    vm.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
   }

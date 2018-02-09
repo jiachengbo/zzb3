@@ -13,7 +13,7 @@ acl = new acl(new acl.memoryBackend());
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
-    roles: ['user', 'admin'],
+    roles: ['advice'],
     allows: [{
       resources: '/api/advice',
       permissions: '*'
