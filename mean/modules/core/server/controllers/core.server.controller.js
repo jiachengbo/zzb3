@@ -37,7 +37,9 @@ exports.renderIndex = function (req, res) {
       user_grade: req.user.user_grade,
       JCDJ_User_roleID: req.user.JCDJ_User_roleID,
       branch: req.user.branch,
-      jobs: req.user.jobs
+      jobs: req.user.jobs,
+      super: req.user.dj_PartyBranch.super,
+      generalbranch: req.user.dj_PartyBranch.generalbranch
     };
   }
 

@@ -75,8 +75,9 @@
           throw error;
         });
     }
-    getMUsers.$inject = ['AdminService', '$window'];
-    function getMUsers(AdminService, $window) {
+    getMUsers.$inject = ['AdminService', '$window', 'appService', 'baseCodeService'];
+    function getMUsers(AdminService, $window, appService, baseCodeService) {
+      //console.log(appService.user, dj_PartyBranch);
       return AdminService.query().$promise
         .catch(function (error) {
           $window.alert('getMUsers error');

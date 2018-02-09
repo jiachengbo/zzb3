@@ -182,7 +182,13 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      comment: '党支部信息表'
+      comment: '党支部信息表',
+      classMethods: {
+        associate: function (models) {
+          this.hasMany(models.User,
+            {foreignKey: 'branch', targetKey: 'OrganizationId'});
+        }
+      }
     }
   );
   dbExtend.addBaseCode('dj_PartyBranch', {

@@ -199,7 +199,57 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   console.time('计时器');
+  var grade = req.user.user_grade;
+  var supers = req.user.dj_PartyBranch.super;
+  var generalbranch = req.user.dj_PartyBranch.generalbranch;
+  var branch = req.user.branch;
+  var dj_PartyBranch = sequelize.model('dj_PartyBranch');
+  var where = {};
+  var where1 = {};
+  if (grade === 4) {
+    where = {
+      user_grade: [4, 6, 9]
+    };
+    where1 = {
+      super: supers
+    };
+  } else if (grade === 5) {
+    where = {
+      user_grade: [5, 7, 10]
+    };
+    where1 = {
+      super: supers
+    };
+  } else if (grade === 6 || grade === 7) {
+    where = {
+      user_grade: grade
+    };
+    where1 = {
+      OrganizationId: branch
+    };
+  } else if (grade === 1) {
+    where = {};
+    where1 = {};
+  } else if (grade === 9) {
+    where = {
+      user_grade: [9, 6]
+    };
+    where1 = {
+      super: supers,
+      generalbranch: generalbranch
+    };
+  } else if (grade === 10) {
+    where = {
+      user_grade: [10, 7]
+    };
+    where1 = {
+      super: supers,
+      generalbranch: generalbranch
+    };
+  }
+  console.log(where1);
   User.findAll({
+    where: where,
     attributes: {
       exclude: ['password', 'salt', 'providerData',
         'additionalProvidersData', 'resetPasswordToken', 'resetPasswordExpires']
@@ -213,6 +263,11 @@ exports.list = function (req, res) {
           attributes: []
         },
         attributes: ['id', 'name']
+      },
+      {
+        where: where1,
+        model: dj_PartyBranch,
+        attributes: ['super', 'generalbranch']
       }
     ],
     order: 'createdAt DESC'

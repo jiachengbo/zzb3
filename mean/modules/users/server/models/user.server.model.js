@@ -570,7 +570,7 @@ module.exports = function (sequelize, DataTypes) {
       indexes: [
         {
           //在外键上建立索引
-          fields: ['department_id']
+          fields: ['department_id', 'branch']
         }
       ],
 
@@ -668,6 +668,8 @@ module.exports = function (sequelize, DataTypes) {
         associate: function (models) {
 //          this.hasMany(models.Article,
 //            {foreignKey: 'user_id', targetKey: 'id'});
+          this.belongsTo(models.dj_PartyBranch,
+            {foreignKey: 'branch'});
           this.belongsTo(models.Department,
             {foreignKey: 'department_id'});
           this.belongsToMany(models.WorkPosition, {

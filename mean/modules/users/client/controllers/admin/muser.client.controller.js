@@ -311,11 +311,9 @@
         }
       }
       var arr = [];
-      console.log(chrl);
       angular.forEach(chrl, function (v, k) {
         if (v.value.descText) {
           if (v.value.descText.match(vm.sname)) {
-            console.log(v);
             angular.forEach(v, function (v1, k1) {
               angular.forEach(v1, function (v2, k2) {
                 if (v2.value) {
@@ -327,7 +325,6 @@
                         vm.treeData = v1;
                       } else {
                         angular.forEach(v2.children, function (v3, k3) {
-                          console.log(v3);
                           // if (vm.gemerbramch) {
                           //   console.log(v3);
                           //   if (v3.value.branch === appService.user.branch && v3.value.user_grade === appService.user.user_grade) {
@@ -336,7 +333,6 @@
                           //   }
                           // } else {
                           if (v3.value.hasOwnProperty('descText')) {
-                            console.log(v3);
                             if (vm.zhibuname.match(v3.value.descText.slice(0, -3))) {
                               v2.children = [];
                               v2.children.push(v3);
@@ -346,7 +342,6 @@
                           }
                         });
                       }
-
                     }
                   }
                 }
@@ -355,8 +350,6 @@
           }
         }
       });
-    } else if (appService.user.user_grade === 9 || appService.user.user_grade === 10) {
-      console.log(vm.serviceTree.nodes[0].children[1].children);
     }
     // vm.treeData = vm.serviceTree.nodes[0].children[0].children[0];
 

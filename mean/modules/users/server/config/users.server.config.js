@@ -6,6 +6,7 @@
 var passport = require('passport'),
   path = require('path'),
   config = require(path.resolve('./config/config')),
+  sequelize = require(path.resolve('./config/lib/sequelize')),
   usersCtrl = require(path.resolve('./modules/private/server/controllers/users-control.server.controller')),
   logger = require(path.resolve('./config/lib/logger')).getLogger_FileNameBase(__filename);
 
@@ -21,10 +22,16 @@ module.exports = function (app, db) {
   // Deserialize sessions
   passport.deserializeUser(function (id, done) {
     var User = db.model('User');
-
+    var dj_PartyBranch = sequelize.model('dj_PartyBranch');
     User.findOne(Object.assign({
       where: {id: id},
-      attributes: {exclude: ['salt', 'password', 'providerData']}
+      attributes: {exclude: ['salt', 'password', 'providerData']},
+      include: [
+        {
+          model: dj_PartyBranch,
+          attributes: ['super', 'generalbranch']
+        }
+      ]
     }, config.db.option.sessionLogging === false ? {logging: false} : {}))
       .then(function (user) {
         if (!user) {
